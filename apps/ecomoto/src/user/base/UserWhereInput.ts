@@ -11,13 +11,52 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { CarListRelationFilter } from "../../car/base/CarListRelationFilter";
+import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { NotificationListRelationFilter } from "../../notification/base/NotificationListRelationFilter";
+import { RentalListRelationFilter } from "../../rental/base/RentalListRelationFilter";
+import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
 class UserWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => CarListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CarListRelationFilter)
+  @IsOptional()
+  @Field(() => CarListRelationFilter, {
+    nullable: true,
+  })
+  cars?: CarListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  deletedAt?: DateTimeNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  email?: StringFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -53,6 +92,30 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
+    type: () => NotificationListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => NotificationListRelationFilter)
+  @IsOptional()
+  @Field(() => NotificationListRelationFilter, {
+    nullable: true,
+  })
+  notifications?: NotificationListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => RentalListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => RentalListRelationFilter)
+  @IsOptional()
+  @Field(() => RentalListRelationFilter, {
+    nullable: true,
+  })
+  rentals?: RentalListRelationFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -61,6 +124,17 @@ class UserWhereInput {
     nullable: true,
   })
   username?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserUserType,
+  })
+  @IsEnum(EnumUserUserType)
+  @IsOptional()
+  @Field(() => EnumUserUserType, {
+    nullable: true,
+  })
+  userType?: "Lessee" | "Lessor";
 }
 
 export { UserWhereInput as UserWhereInput };

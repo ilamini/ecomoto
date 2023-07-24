@@ -11,13 +11,58 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { CarUpdateManyWithoutUsersInput } from "./CarUpdateManyWithoutUsersInput";
+import {
+  ValidateNested,
+  IsOptional,
+  IsDate,
+  IsString,
+  IsEnum,
+} from "class-validator";
+import { Type } from "class-transformer";
+import { NotificationUpdateManyWithoutUsersInput } from "./NotificationUpdateManyWithoutUsersInput";
+import { RentalUpdateManyWithoutUsersInput } from "./RentalUpdateManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
 class UserUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CarUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CarUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CarUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  cars?: CarUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  deletedAt?: Date | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email?: string;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -42,6 +87,18 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: () => NotificationUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => NotificationUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => NotificationUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  notifications?: NotificationUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -50,6 +107,18 @@ class UserUpdateInput {
     nullable: true,
   })
   password?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => RentalUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => RentalUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => RentalUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  rentals?: RentalUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -71,6 +140,17 @@ class UserUpdateInput {
     nullable: true,
   })
   username?: string;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserUserType,
+  })
+  @IsEnum(EnumUserUserType)
+  @IsOptional()
+  @Field(() => EnumUserUserType, {
+    nullable: true,
+  })
+  userType?: "Lessee" | "Lessor";
 }
 
 export { UserUpdateInput as UserUpdateInput };

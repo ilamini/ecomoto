@@ -26,6 +26,12 @@ import { UserCountArgs } from "./UserCountArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { CarFindManyArgs } from "../../car/base/CarFindManyArgs";
+import { Car } from "../../car/base/Car";
+import { NotificationFindManyArgs } from "../../notification/base/NotificationFindManyArgs";
+import { Notification } from "../../notification/base/Notification";
+import { RentalFindManyArgs } from "../../rental/base/RentalFindManyArgs";
+import { Rental } from "../../rental/base/Rental";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -130,5 +136,65 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Car], { name: "cars" })
+  @nestAccessControl.UseRoles({
+    resource: "Car",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldCars(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CarFindManyArgs
+  ): Promise<Car[]> {
+    const results = await this.service.findCars(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Notification], { name: "notifications" })
+  @nestAccessControl.UseRoles({
+    resource: "Notification",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldNotifications(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: NotificationFindManyArgs
+  ): Promise<Notification[]> {
+    const results = await this.service.findNotifications(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Rental], { name: "rentals" })
+  @nestAccessControl.UseRoles({
+    resource: "Rental",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldRentals(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: RentalFindManyArgs
+  ): Promise<Rental[]> {
+    const results = await this.service.findRentals(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }
