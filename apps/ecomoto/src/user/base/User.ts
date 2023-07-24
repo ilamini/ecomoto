@@ -11,14 +11,33 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsOptional } from "class-validator";
+import { Car } from "../../car/base/Car";
+import {
+  ValidateNested,
+  IsOptional,
+  IsDate,
+  IsString,
+  IsEnum,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { Notification } from "../../notification/base/Notification";
+import { Rental } from "../../rental/base/Rental";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { EnumUserUserType } from "./EnumUserUserType";
 
 @ObjectType()
 class User {
+  @ApiProperty({
+    required: false,
+    type: () => [Car],
+  })
+  @ValidateNested()
+  @Type(() => Car)
+  @IsOptional()
+  cars?: Array<Car>;
+
   @ApiProperty({
     required: true,
   })
@@ -26,6 +45,25 @@ class User {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  deletedAt!: Date | null;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  email!: string;
 
   @ApiProperty({
     required: false,
@@ -58,6 +96,24 @@ class User {
   lastName!: string | null;
 
   @ApiProperty({
+    required: false,
+    type: () => [Notification],
+  })
+  @ValidateNested()
+  @Type(() => Notification)
+  @IsOptional()
+  notifications?: Array<Notification>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Rental],
+  })
+  @ValidateNested()
+  @Type(() => Rental)
+  @IsOptional()
+  rentals?: Array<Rental>;
+
+  @ApiProperty({
     required: true,
   })
   @IsJSONValue()
@@ -79,6 +135,16 @@ class User {
   @IsString()
   @Field(() => String)
   username!: string;
+
+  @ApiProperty({
+    required: true,
+    enum: EnumUserUserType,
+  })
+  @IsEnum(EnumUserUserType)
+  @Field(() => EnumUserUserType, {
+    nullable: true,
+  })
+  userType?: "Lessee" | "Lessor";
 }
 
 export { User as User };

@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, User } from "@prisma/client";
+import { Prisma, User, Car, Notification, Rental } from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 
@@ -70,5 +70,38 @@ export class UserServiceBase {
     args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>
   ): Promise<User> {
     return this.prisma.user.delete(args);
+  }
+
+  async findCars(
+    parentId: string,
+    args: Prisma.CarFindManyArgs
+  ): Promise<Car[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .cars(args);
+  }
+
+  async findNotifications(
+    parentId: string,
+    args: Prisma.NotificationFindManyArgs
+  ): Promise<Notification[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .notifications(args);
+  }
+
+  async findRentals(
+    parentId: string,
+    args: Prisma.RentalFindManyArgs
+  ): Promise<Rental[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .rentals(args);
   }
 }
