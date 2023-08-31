@@ -1,10 +1,11 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
+import { AuthModule } from "../auth/auth.module";
 import { PlanModuleBase } from "./base/plan.module.base";
 import { PlanService } from "./plan.service";
 import { PlanResolver } from "./plan.resolver";
 
 @Module({
-  imports: [PlanModuleBase],
+  imports: [PlanModuleBase, forwardRef(() => AuthModule)],
   providers: [PlanService, PlanResolver],
   exports: [PlanService],
 })

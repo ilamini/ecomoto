@@ -1,5 +1,6 @@
 import { CarImage } from "../carImage/CarImage";
 import { User } from "../user/User";
+import { JsonValue } from "type-fest";
 import { Rental } from "../rental/Rental";
 
 export type Car = {
@@ -10,6 +11,7 @@ export type Car = {
   lessorId?: User;
   make: string;
   model: string;
+  parkedLocation: JsonValue;
   registrationInfo: string;
   rentals?: Array<Rental>;
   updatedAt: Date;

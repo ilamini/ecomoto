@@ -2,6 +2,7 @@ import { CarImageListRelationFilter } from "../carImage/CarImageListRelationFilt
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
+import { JsonFilter } from "../../util/JsonFilter";
 import { RentalListRelationFilter } from "../rental/RentalListRelationFilter";
 
 export type CarWhereInput = {
@@ -11,6 +12,7 @@ export type CarWhereInput = {
   lessorId?: UserWhereUniqueInput;
   make?: StringFilter;
   model?: StringFilter;
+  parkedLocation?: JsonFilter;
   registrationInfo?: StringFilter;
   rentals?: RentalListRelationFilter;
 };

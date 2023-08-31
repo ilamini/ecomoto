@@ -34,6 +34,7 @@ export const CarCreate = (props: CreateProps): React.ReactElement => {
         </ReferenceInput>
         <TextInput label="make" source="make" />
         <TextInput label="model" source="model" />
+        <div />
         <TextInput label="registration_info" source="registrationInfo" />
         <ReferenceArrayInput
           source="rentals"
