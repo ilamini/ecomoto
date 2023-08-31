@@ -1,10 +1,11 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
+import { AuthModule } from "../auth/auth.module";
 import { EscrowModuleBase } from "./base/escrow.module.base";
 import { EscrowService } from "./escrow.service";
 import { EscrowResolver } from "./escrow.resolver";
 
 @Module({
-  imports: [EscrowModuleBase],
+  imports: [EscrowModuleBase, forwardRef(() => AuthModule)],
   providers: [EscrowService, EscrowResolver],
   exports: [EscrowService],
 })

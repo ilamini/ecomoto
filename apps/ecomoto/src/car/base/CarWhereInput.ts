@@ -17,6 +17,7 @@ import { Type } from "class-transformer";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { JsonFilter } from "../../util/JsonFilter";
 import { RentalListRelationFilter } from "../../rental/base/RentalListRelationFilter";
 
 @InputType()
@@ -88,6 +89,17 @@ class CarWhereInput {
     nullable: true,
   })
   model?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: JsonFilter,
+  })
+  @Type(() => JsonFilter)
+  @IsOptional()
+  @Field(() => JsonFilter, {
+    nullable: true,
+  })
+  parkedLocation?: JsonFilter;
 
   @ApiProperty({
     required: false,

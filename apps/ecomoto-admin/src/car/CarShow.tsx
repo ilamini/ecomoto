@@ -28,6 +28,7 @@ export const CarShow = (props: ShowProps): React.ReactElement => {
         </ReferenceField>
         <TextField label="make" source="make" />
         <TextField label="model" source="model" />
+        <TextField label="parkedLocation" source="parkedLocation" />
         <TextField label="registration_info" source="registrationInfo" />
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField

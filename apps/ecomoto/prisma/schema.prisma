@@ -1,4 +1,4 @@
-datasource mongo {
+datasource db {
   provider = "mongodb"
   url      = env("DB_URL")
 }
@@ -33,6 +33,7 @@ model Car {
   lessorIdId       String
   make             String
   model            String
+  parkedLocation   Json?
   registrationInfo String
   rentals          Rental[]
   updatedAt        DateTime   @updatedAt

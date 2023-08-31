@@ -15,6 +15,9 @@ import { CarImageUpdateManyWithoutCarsInput } from "./CarImageUpdateManyWithoutC
 import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
 import { RentalUpdateManyWithoutCarsInput } from "./RentalUpdateManyWithoutCarsInput";
 
 @InputType()
@@ -75,6 +78,16 @@ class CarUpdateInput {
     nullable: true,
   })
   model?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  parkedLocation?: InputJsonValue;
 
   @ApiProperty({
     required: false,

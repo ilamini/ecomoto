@@ -15,6 +15,9 @@ import { CarImage } from "../../carImage/base/CarImage";
 import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { User } from "../../user/base/User";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { JsonValue } from "type-fest";
 import { Rental } from "../../rental/base/Rental";
 
 @ObjectType()
@@ -78,6 +81,16 @@ class Car {
   @IsString()
   @Field(() => String)
   model!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  parkedLocation!: JsonValue;
 
   @ApiProperty({
     required: true,

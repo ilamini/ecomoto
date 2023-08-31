@@ -15,6 +15,9 @@ import { CarImageCreateNestedManyWithoutCarsInput } from "./CarImageCreateNested
 import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
 import { RentalCreateNestedManyWithoutCarsInput } from "./RentalCreateNestedManyWithoutCarsInput";
 
 @InputType()
@@ -66,6 +69,16 @@ class CarCreateInput {
   @IsString()
   @Field(() => String)
   model!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  parkedLocation?: InputJsonValue;
 
   @ApiProperty({
     required: true,
