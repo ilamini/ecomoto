@@ -1,4 +1,4 @@
-datasource mongo {
+datasource db {
   provider = "mongodb"
   url      = env("DB_URL")
 }
@@ -8,44 +8,37 @@ generator client {
 }
 
 model User {
-  cars          Car[]
-  createdAt     DateTime       @default(now())
-  deletedAt     DateTime?
-  email         String         @unique
-  firstName     String?
-  id            String         @id @default(auto()) @map("_id") @mongo.ObjectId
-  lastName      String?
-  notifications Notification[]
-  password      String
-  rentals       Rental[]
-  roles         Json
-  updatedAt     DateTime       @updatedAt
-  username      String         @unique
+  cars           Car[]
+  comments       Comment[]
+  communities    Community[]     @relation(fields: [communitiesIds], references: [id])
+  communitiesIds String[]        @mongo.ObjectId
+  communityFeeds CommunityFeed[]
+  createdAt      DateTime        @default(now())
+  deletedAt      DateTime?
+  email          String          @unique
+  firstName      String?
+  id             String          @id @default(auto()) @map("_id") @mongo.ObjectId
+  lastName       String?
+  password       String
+  rentals        Rental[]
+  roles          Json
+  updatedAt      DateTime        @updatedAt
+  username       String          @unique
   userType EnumUserUserType @default('Lessee')
 }
 
 model Car {
-  carImages        CarImage[]
-  createdAt        DateTime   @default(now())
+  createdAt        DateTime  @default(now())
   deletedAt        DateTime?
-  id               String     @id @default(auto()) @map("_id") @mongo.ObjectId
-  lessorId         User       @relation(fields: [lessorIdId], references: [id])
+  id               String    @id @default(auto()) @map("_id") @mongo.ObjectId
+  lessorId         User      @relation(fields: [lessorIdId], references: [id])
   lessorIdId       String
   make             String
   model            String
+  parkedLocation   Json?
   registrationInfo String
   rentals          Rental[]
-  updatedAt        DateTime   @updatedAt
-}
-
-model CarImage {
-  carId     Car      @relation(fields: [carIdId], references: [id])
-  carIdId   String
-  createdAt DateTime @default(now())
-  deletedAt String?
-  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
-  imageUrl  String
-  updatedAt DateTime @updatedAt
+  updatedAt        DateTime  @updatedAt
 }
 
 model Rental {
@@ -56,7 +49,6 @@ model Rental {
   deletedAt           DateTime?
   destination         String
   destinationGeoLoc   String
-  escrows             Escrow?
   id                  String                  @id @default(auto()) @map("_id") @mongo.ObjectId
   lesseeId            User                    @relation(fields: [lesseeIdId], references: [id])
   lesseeIdId          String
@@ -80,27 +72,39 @@ model Plan {
   updatedAt DateTime @updatedAt
 }
 
-model Escrow {
-  blockchainHash String?                 @default(null)
-  createdAt      DateTime                @default(now())
-  deletedAt      String?
-  depositAmount  Float?
-  depositStatus  EnumEscrowDepositStatus
-  id             String                  @id @default(auto()) @map("_id") @mongo.ObjectId
-  rentalId       Rental                  @relation(fields: [rental_id], references: [id])
-  rental_id      String                  @unique
-  updatedAt      DateTime                @updatedAt
+model Community {
+  communityFeeds       CommunityFeed[]
+  communityHeadeImgUrl String
+  createdAt            DateTime        @default(now())
+  description          String
+  id                   String          @id @default(auto()) @map("_id") @mongo.ObjectId
+  members              User[]          @relation(fields: [membersIds], references: [id])
+  membersIds           String[]        @mongo.ObjectId
+  name                 String
+  updatedAt            DateTime        @updatedAt
 }
 
-model Notification {
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-  id        String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  isRead    Boolean?
-  message   String
-  updatedAt DateTime  @updatedAt
-  userId    User      @relation(fields: [userIdId], references: [id])
-  userIdId  String
+model CommunityFeed {
+  comments    Comment[]
+  community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
+  content     String
+  createdAt   DateTime   @default(now())
+  creator     User?      @relation(fields: [ds], references: [id])
+  ds          String?
+  id          String     @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt   DateTime   @updatedAt
+}
+
+model Comment {
+  comments        String?
+  communityFeed   CommunityFeed? @relation(fields: [communityFeedId], references: [id])
+  communityFeedId String?
+  createdAt       DateTime       @default(now())
+  creator         User?          @relation(fields: [user_id], references: [id])
+  user_id         String?
+  id              String         @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt       DateTime       @updatedAt
 }
 
 enum EnumUserUserType {
@@ -116,10 +120,4 @@ enum EnumRentalRentalStatus {
   Completed
   Extended
   Settled
-}
-
-enum EnumEscrowDepositStatus {
-  Active
-  Settled
-  Reversed
 }

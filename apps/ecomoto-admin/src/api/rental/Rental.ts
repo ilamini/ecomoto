@@ -1,5 +1,4 @@
 import { Car } from "../car/Car";
-import { Escrow } from "../escrow/Escrow";
 import { User } from "../user/User";
 import { Plan } from "../plan/Plan";
 
@@ -10,7 +9,6 @@ export type Rental = {
   deletedAt: Date | null;
   destination: string;
   destinationGeoLoc: string;
-  escrows?: Escrow | null;
   id: string;
   lesseeId?: User;
   pickupAddress: string;

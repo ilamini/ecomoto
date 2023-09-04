@@ -14,10 +14,12 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CarListRelationFilter } from "../../car/base/CarListRelationFilter";
 import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
+import { CommunityListRelationFilter } from "../../community/base/CommunityListRelationFilter";
+import { CommunityFeedListRelationFilter } from "../../communityFeed/base/CommunityFeedListRelationFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { NotificationListRelationFilter } from "../../notification/base/NotificationListRelationFilter";
 import { RentalListRelationFilter } from "../../rental/base/RentalListRelationFilter";
 import { EnumUserUserType } from "./EnumUserUserType";
 
@@ -34,6 +36,42 @@ class UserWhereInput {
     nullable: true,
   })
   cars?: CarListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommentListRelationFilter)
+  @IsOptional()
+  @Field(() => CommentListRelationFilter, {
+    nullable: true,
+  })
+  comments?: CommentListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommunityListRelationFilter)
+  @IsOptional()
+  @Field(() => CommunityListRelationFilter, {
+    nullable: true,
+  })
+  communities?: CommunityListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityFeedListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommunityFeedListRelationFilter)
+  @IsOptional()
+  @Field(() => CommunityFeedListRelationFilter, {
+    nullable: true,
+  })
+  communityFeeds?: CommunityFeedListRelationFilter;
 
   @ApiProperty({
     required: false,
@@ -89,18 +127,6 @@ class UserWhereInput {
     nullable: true,
   })
   lastName?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => NotificationListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => NotificationListRelationFilter)
-  @IsOptional()
-  @Field(() => NotificationListRelationFilter, {
-    nullable: true,
-  })
-  notifications?: NotificationListRelationFilter;
 
   @ApiProperty({
     required: false,

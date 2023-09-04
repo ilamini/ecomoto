@@ -121,66 +121,6 @@
   },
   {
     "role": "user",
-    "resource": "CarImage",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "CarImage",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "CarImage",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "CarImage",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "CarImage",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "CarImage",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "CarImage",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "CarImage",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "CarImage",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "CarImage",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
     "resource": "Rental",
     "action": "read:own",
     "attributes": "*"
@@ -259,121 +199,181 @@
   },
   {
     "role": "user",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Escrow",
+    "resource": "Community",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "admin",
-    "resource": "Notification",
+    "resource": "CommunityFeed",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Comment",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Comment",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Comment",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Comment",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Comment",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Comment",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Comment",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Comment",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Comment",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Comment",
     "action": "read:any",
     "attributes": "*"
   }

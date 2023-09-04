@@ -13,7 +13,9 @@ import {
 } from "react-admin";
 
 import { CarTitle } from "../car/CarTitle";
-import { NotificationTitle } from "../notification/NotificationTitle";
+import { CommentTitle } from "../comment/CommentTitle";
+import { CommunityTitle } from "../community/CommunityTitle";
+import { CommunityFeedTitle } from "../communityFeed/CommunityFeedTitle";
 import { RentalTitle } from "../rental/RentalTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
 
@@ -29,18 +31,34 @@ export const UserEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={CarTitle} />
         </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="comments"
+          reference="Comment"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={CommentTitle} />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="communities"
+          reference="Community"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={CommunityTitle} />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="communityFeeds"
+          reference="CommunityFeed"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={CommunityFeedTitle} />
+        </ReferenceArrayInput>
         <DateInput label="Deleted At" source="deletedAt" />
         <TextInput label="email" source="email" type="email" />
         <TextInput label="First Name" source="firstName" />
         <TextInput label="Last Name" source="lastName" />
-        <ReferenceArrayInput
-          source="notifications"
-          reference="Notification"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={NotificationTitle} />
-        </ReferenceArrayInput>
         <PasswordInput label="Password" source="password" />
         <ReferenceArrayInput
           source="rentals"

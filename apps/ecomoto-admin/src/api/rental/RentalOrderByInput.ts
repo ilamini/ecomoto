@@ -7,7 +7,6 @@ export type RentalOrderByInput = {
   deletedAt?: SortOrder;
   destination?: SortOrder;
   destinationGeoLoc?: SortOrder;
-  escrowsId?: SortOrder;
   id?: SortOrder;
   lesseeIdId?: SortOrder;
   pickupAddress?: SortOrder;

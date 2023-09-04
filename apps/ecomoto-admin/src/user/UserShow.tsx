@@ -9,12 +9,12 @@ import {
   ReferenceManyField,
   Datagrid,
   ReferenceField,
-  BooleanField,
 } from "react-admin";
 
 import { USER_TITLE_FIELD } from "./UserTitle";
+import { COMMUNITYFEED_TITLE_FIELD } from "../communityFeed/CommunityFeedTitle";
+import { COMMUNITY_TITLE_FIELD } from "../community/CommunityTitle";
 import { CAR_TITLE_FIELD } from "../car/CarTitle";
-import { ESCROW_TITLE_FIELD } from "../escrow/EscrowTitle";
 import { PLAN_TITLE_FIELD } from "../plan/PlanTitle";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
@@ -41,25 +41,53 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
             </ReferenceField>
             <TextField label="make" source="make" />
             <TextField label="model" source="model" />
+            <TextField label="parkedLocation" source="parkedLocation" />
             <TextField label="registration_info" source="registrationInfo" />
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
-          reference="Notification"
-          target="userIdId"
-          label="Notifications"
+          reference="Comment"
+          target="user_id"
+          label="Comments"
         >
           <Datagrid rowClick="show">
+            <TextField label="comments" source="comments" />
+            <ReferenceField
+              label="CommunityFeed"
+              source="communityfeed.id"
+              reference="CommunityFeed"
+            >
+              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
+            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
-            <TextField label="Deleted At" source="deletedAt" />
-            <TextField label="ID" source="id" />
-            <BooleanField label="is_read" source="isRead" />
-            <TextField label="message" source="message" />
-            <DateField source="updatedAt" label="Updated At" />
-            <ReferenceField label="user_id" source="user.id" reference="User">
+            <ReferenceField label="creator" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />
             </ReferenceField>
+            <TextField label="ID" source="id" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
+          reference="CommunityFeed"
+          target="ds"
+          label="CommunityFeeds"
+        >
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="community"
+              source="community.id"
+              reference="Community"
+            >
+              <TextField source={COMMUNITY_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="content" source="content" />
+            <DateField source="createdAt" label="Created At" />
+            <ReferenceField label="creator" source="user.id" reference="User">
+              <TextField source={USER_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="ID" source="id" />
+            <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
@@ -76,13 +104,6 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
             <TextField label="deletedAt" source="deletedAt" />
             <TextField label="destination" source="destination" />
             <TextField label="destinationGeoLoc" source="destinationGeoLoc" />
-            <ReferenceField
-              label="Escrows"
-              source="escrow.id"
-              reference="Escrow"
-            >
-              <TextField source={ESCROW_TITLE_FIELD} />
-            </ReferenceField>
             <TextField label="ID" source="id" />
             <ReferenceField label="lessee_id" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />

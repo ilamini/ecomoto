@@ -16,7 +16,6 @@ import { Type } from "class-transformer";
 import { IsOptional, ValidateNested, IsEnum } from "class-validator";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
-import { EscrowWhereUniqueInput } from "../../escrow/base/EscrowWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { PlanWhereUniqueInput } from "../../plan/base/PlanWhereUniqueInput";
 import { DateTimeFilter } from "../../util/DateTimeFilter";
@@ -67,18 +66,6 @@ class RentalWhereInput {
     nullable: true,
   })
   destinationGeoLoc?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => EscrowWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => EscrowWhereUniqueInput)
-  @IsOptional()
-  @Field(() => EscrowWhereUniqueInput, {
-    nullable: true,
-  })
-  escrows?: EscrowWhereUniqueInput;
 
   @ApiProperty({
     required: false,

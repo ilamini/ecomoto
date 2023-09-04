@@ -1,5 +1,4 @@
 import { CarWhereUniqueInput } from "../car/CarWhereUniqueInput";
-import { EscrowWhereUniqueInput } from "../escrow/EscrowWhereUniqueInput";
 import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
 import { PlanWhereUniqueInput } from "../plan/PlanWhereUniqueInput";
 
@@ -9,7 +8,6 @@ export type RentalCreateInput = {
   deletedAt?: Date | null;
   destination: string;
   destinationGeoLoc: string;
-  escrows?: EscrowWhereUniqueInput | null;
   lesseeId: UserWhereUniqueInput;
   pickupAddress: string;
   pickupGeoLoc: string;

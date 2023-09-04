@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Car, CarImage, Rental, User } from "@prisma/client";
+import { Prisma, Car, Rental, User } from "@prisma/client";
 
 export class CarServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,17 +45,6 @@ export class CarServiceBase {
     args: Prisma.SelectSubset<T, Prisma.CarDeleteArgs>
   ): Promise<Car> {
     return this.prisma.car.delete(args);
-  }
-
-  async findCarImages(
-    parentId: string,
-    args: Prisma.CarImageFindManyArgs
-  ): Promise<CarImage[]> {
-    return this.prisma.car
-      .findUniqueOrThrow({
-        where: { id: parentId },
-      })
-      .carImages(args);
   }
 
   async findRentals(

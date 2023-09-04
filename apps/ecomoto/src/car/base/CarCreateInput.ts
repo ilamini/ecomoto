@@ -11,26 +11,16 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CarImageCreateNestedManyWithoutCarsInput } from "./CarImageCreateNestedManyWithoutCarsInput";
-import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
+import { IsDate, IsOptional, ValidateNested, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
 import { RentalCreateNestedManyWithoutCarsInput } from "./RentalCreateNestedManyWithoutCarsInput";
 
 @InputType()
 class CarCreateInput {
-  @ApiProperty({
-    required: false,
-    type: () => CarImageCreateNestedManyWithoutCarsInput,
-  })
-  @ValidateNested()
-  @Type(() => CarImageCreateNestedManyWithoutCarsInput)
-  @IsOptional()
-  @Field(() => CarImageCreateNestedManyWithoutCarsInput, {
-    nullable: true,
-  })
-  carImages?: CarImageCreateNestedManyWithoutCarsInput;
-
   @ApiProperty({
     required: false,
   })
@@ -66,6 +56,16 @@ class CarCreateInput {
   @IsString()
   @Field(() => String)
   model!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  parkedLocation?: InputJsonValue;
 
   @ApiProperty({
     required: true,

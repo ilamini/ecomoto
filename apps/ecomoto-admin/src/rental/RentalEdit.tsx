@@ -11,7 +11,6 @@ import {
 } from "react-admin";
 
 import { CarTitle } from "../car/CarTitle";
-import { EscrowTitle } from "../escrow/EscrowTitle";
 import { UserTitle } from "../user/UserTitle";
 import { PlanTitle } from "../plan/PlanTitle";
 
@@ -26,9 +25,6 @@ export const RentalEdit = (props: EditProps): React.ReactElement => {
         <DateTimeInput label="deletedAt" source="deletedAt" />
         <TextInput label="destination" source="destination" />
         <TextInput label="destinationGeoLoc" source="destinationGeoLoc" />
-        <ReferenceInput source="escrows.id" reference="Escrow" label="Escrows">
-          <SelectInput optionText={EscrowTitle} />
-        </ReferenceInput>
         <ReferenceInput source="lesseeId.id" reference="User" label="lessee_id">
           <SelectInput optionText={UserTitle} />
         </ReferenceInput>

@@ -20,7 +20,9 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { Notification } from "../../notification/base/Notification";
+import { Comment } from "../../comment/base/Comment";
+import { Community } from "../../community/base/Community";
+import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { Rental } from "../../rental/base/Rental";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
@@ -37,6 +39,33 @@ class User {
   @Type(() => Car)
   @IsOptional()
   cars?: Array<Car>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Comment],
+  })
+  @ValidateNested()
+  @Type(() => Comment)
+  @IsOptional()
+  comments?: Array<Comment>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Community],
+  })
+  @ValidateNested()
+  @Type(() => Community)
+  @IsOptional()
+  communities?: Array<Community>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [CommunityFeed],
+  })
+  @ValidateNested()
+  @Type(() => CommunityFeed)
+  @IsOptional()
+  communityFeeds?: Array<CommunityFeed>;
 
   @ApiProperty({
     required: true,
@@ -94,15 +123,6 @@ class User {
     nullable: true,
   })
   lastName!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => [Notification],
-  })
-  @ValidateNested()
-  @Type(() => Notification)
-  @IsOptional()
-  notifications?: Array<Notification>;
 
   @ApiProperty({
     required: false,

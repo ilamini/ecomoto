@@ -94,6 +94,17 @@ class CarOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  parkedLocation?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   registrationInfo?: SortOrder;
 
   @ApiProperty({
