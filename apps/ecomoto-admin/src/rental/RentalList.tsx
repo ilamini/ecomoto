@@ -9,7 +9,6 @@ import {
 } from "react-admin";
 import Pagination from "../Components/Pagination";
 import { CAR_TITLE_FIELD } from "../car/CarTitle";
-import { ESCROW_TITLE_FIELD } from "../escrow/EscrowTitle";
 import { USER_TITLE_FIELD } from "../user/UserTitle";
 import { PLAN_TITLE_FIELD } from "../plan/PlanTitle";
 
@@ -31,9 +30,6 @@ export const RentalList = (props: ListProps): React.ReactElement => {
         <TextField label="deletedAt" source="deletedAt" />
         <TextField label="destination" source="destination" />
         <TextField label="destinationGeoLoc" source="destinationGeoLoc" />
-        <ReferenceField label="Escrows" source="escrow.id" reference="Escrow">
-          <TextField source={ESCROW_TITLE_FIELD} />
-        </ReferenceField>
         <TextField label="ID" source="id" />
         <ReferenceField label="lessee_id" source="user.id" reference="User">
           <TextField source={USER_TITLE_FIELD} />

@@ -20,7 +20,6 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { EscrowWhereUniqueInput } from "../../escrow/base/EscrowWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { PlanWhereUniqueInput } from "../../plan/base/PlanWhereUniqueInput";
 import { EnumRentalRentalStatus } from "./EnumRentalRentalStatus";
@@ -73,18 +72,6 @@ class RentalCreateInput {
   @IsString()
   @Field(() => String)
   destinationGeoLoc!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => EscrowWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => EscrowWhereUniqueInput)
-  @IsOptional()
-  @Field(() => EscrowWhereUniqueInput, {
-    nullable: true,
-  })
-  escrows?: EscrowWhereUniqueInput | null;
 
   @ApiProperty({
     required: true,

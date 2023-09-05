@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Rental, Car, Escrow, User, Plan } from "@prisma/client";
+import { Prisma, Rental, Car, User, Plan } from "@prisma/client";
 
 export class RentalServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -53,14 +53,6 @@ export class RentalServiceBase {
         where: { id: parentId },
       })
       .carId();
-  }
-
-  async getEscrows(parentId: string): Promise<Escrow | null> {
-    return this.prisma.rental
-      .findUnique({
-        where: { id: parentId },
-      })
-      .escrows();
   }
 
   async getLesseeId(parentId: string): Promise<User | null> {

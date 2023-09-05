@@ -20,7 +20,9 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { NotificationUpdateManyWithoutUsersInput } from "./NotificationUpdateManyWithoutUsersInput";
+import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
+import { CommunityUpdateManyWithoutUsersInput } from "./CommunityUpdateManyWithoutUsersInput";
+import { CommunityFeedUpdateManyWithoutUsersInput } from "./CommunityFeedUpdateManyWithoutUsersInput";
 import { RentalUpdateManyWithoutUsersInput } from "./RentalUpdateManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
@@ -40,6 +42,42 @@ class UserUpdateInput {
     nullable: true,
   })
   cars?: CarUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  comments?: CommentUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommunityUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommunityUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  communities?: CommunityUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityFeedUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommunityFeedUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommunityFeedUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  communityFeeds?: CommunityFeedUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -84,18 +122,6 @@ class UserUpdateInput {
     nullable: true,
   })
   lastName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => NotificationUpdateManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => NotificationUpdateManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => NotificationUpdateManyWithoutUsersInput, {
-    nullable: true,
-  })
-  notifications?: NotificationUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

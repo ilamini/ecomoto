@@ -28,7 +28,6 @@ import { RentalFindManyArgs } from "./RentalFindManyArgs";
 import { RentalFindUniqueArgs } from "./RentalFindUniqueArgs";
 import { Rental } from "./Rental";
 import { Car } from "../../car/base/Car";
-import { Escrow } from "../../escrow/base/Escrow";
 import { User } from "../../user/base/User";
 import { Plan } from "../../plan/base/Plan";
 import { RentalService } from "../rental.service";
@@ -100,12 +99,6 @@ export class RentalResolverBase {
           connect: args.data.carId,
         },
 
-        escrows: args.data.escrows
-          ? {
-              connect: args.data.escrows,
-            }
-          : undefined,
-
         lesseeId: {
           connect: args.data.lesseeId,
         },
@@ -136,12 +129,6 @@ export class RentalResolverBase {
           carId: {
             connect: args.data.carId,
           },
-
-          escrows: args.data.escrows
-            ? {
-                connect: args.data.escrows,
-              }
-            : undefined,
 
           lesseeId: {
             connect: args.data.lesseeId,
@@ -197,27 +184,6 @@ export class RentalResolverBase {
     @graphql.Parent() parent: Rental
   ): Promise<Car | null> {
     const result = await this.service.getCarId(parent.id);
-
-    if (!result) {
-      return null;
-    }
-    return result;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => Escrow, {
-    nullable: true,
-    name: "escrows",
-  })
-  @nestAccessControl.UseRoles({
-    resource: "Escrow",
-    action: "read",
-    possession: "any",
-  })
-  async resolveFieldEscrows(
-    @graphql.Parent() parent: Rental
-  ): Promise<Escrow | null> {
-    const result = await this.service.getEscrows(parent.id);
 
     if (!result) {
       return null;

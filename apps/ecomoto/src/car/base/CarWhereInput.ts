@@ -11,28 +11,16 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CarImageListRelationFilter } from "../../carImage/base/CarImageListRelationFilter";
-import { ValidateNested, IsOptional } from "class-validator";
-import { Type } from "class-transformer";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { JsonFilter } from "../../util/JsonFilter";
 import { RentalListRelationFilter } from "../../rental/base/RentalListRelationFilter";
 
 @InputType()
 class CarWhereInput {
-  @ApiProperty({
-    required: false,
-    type: () => CarImageListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => CarImageListRelationFilter)
-  @IsOptional()
-  @Field(() => CarImageListRelationFilter, {
-    nullable: true,
-  })
-  carImages?: CarImageListRelationFilter;
-
   @ApiProperty({
     required: false,
     type: DateTimeNullableFilter,
@@ -88,6 +76,17 @@ class CarWhereInput {
     nullable: true,
   })
   model?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: JsonFilter,
+  })
+  @Type(() => JsonFilter)
+  @IsOptional()
+  @Field(() => JsonFilter, {
+    nullable: true,
+  })
+  parkedLocation?: JsonFilter;
 
   @ApiProperty({
     required: false,

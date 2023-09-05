@@ -20,7 +20,6 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { Escrow } from "../../escrow/base/Escrow";
 import { User } from "../../user/base/User";
 import { Plan } from "../../plan/base/Plan";
 import { EnumRentalRentalStatus } from "./EnumRentalRentalStatus";
@@ -80,15 +79,6 @@ class Rental {
   @IsString()
   @Field(() => String)
   destinationGeoLoc!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => Escrow,
-  })
-  @ValidateNested()
-  @Type(() => Escrow)
-  @IsOptional()
-  escrows?: Escrow | null;
 
   @ApiProperty({
     required: true,

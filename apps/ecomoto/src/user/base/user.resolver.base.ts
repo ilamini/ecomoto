@@ -28,8 +28,12 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
 import { CarFindManyArgs } from "../../car/base/CarFindManyArgs";
 import { Car } from "../../car/base/Car";
-import { NotificationFindManyArgs } from "../../notification/base/NotificationFindManyArgs";
-import { Notification } from "../../notification/base/Notification";
+import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
+import { Comment } from "../../comment/base/Comment";
+import { CommunityFindManyArgs } from "../../community/base/CommunityFindManyArgs";
+import { Community } from "../../community/base/Community";
+import { CommunityFeedFindManyArgs } from "../../communityFeed/base/CommunityFeedFindManyArgs";
+import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { RentalFindManyArgs } from "../../rental/base/RentalFindManyArgs";
 import { Rental } from "../../rental/base/Rental";
 import { UserService } from "../user.service";
@@ -159,17 +163,57 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Notification], { name: "notifications" })
+  @graphql.ResolveField(() => [Comment], { name: "comments" })
   @nestAccessControl.UseRoles({
-    resource: "Notification",
+    resource: "Comment",
     action: "read",
     possession: "any",
   })
-  async resolveFieldNotifications(
+  async resolveFieldComments(
     @graphql.Parent() parent: User,
-    @graphql.Args() args: NotificationFindManyArgs
-  ): Promise<Notification[]> {
-    const results = await this.service.findNotifications(parent.id, args);
+    @graphql.Args() args: CommentFindManyArgs
+  ): Promise<Comment[]> {
+    const results = await this.service.findComments(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Community], { name: "communities" })
+  @nestAccessControl.UseRoles({
+    resource: "Community",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldCommunities(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CommunityFindManyArgs
+  ): Promise<Community[]> {
+    const results = await this.service.findCommunities(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [CommunityFeed], { name: "communityFeeds" })
+  @nestAccessControl.UseRoles({
+    resource: "CommunityFeed",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldCommunityFeeds(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CommunityFeedFindManyArgs
+  ): Promise<CommunityFeed[]> {
+    const results = await this.service.findCommunityFeeds(parent.id, args);
 
     if (!results) {
       return [];

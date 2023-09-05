@@ -20,7 +20,9 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { NotificationCreateNestedManyWithoutUsersInput } from "./NotificationCreateNestedManyWithoutUsersInput";
+import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
+import { CommunityCreateNestedManyWithoutUsersInput } from "./CommunityCreateNestedManyWithoutUsersInput";
+import { CommunityFeedCreateNestedManyWithoutUsersInput } from "./CommunityFeedCreateNestedManyWithoutUsersInput";
 import { RentalCreateNestedManyWithoutUsersInput } from "./RentalCreateNestedManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
@@ -40,6 +42,42 @@ class UserCreateInput {
     nullable: true,
   })
   cars?: CarCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  comments?: CommentCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommunityCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommunityCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  communities?: CommunityCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommunityFeedCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommunityFeedCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommunityFeedCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  communityFeeds?: CommunityFeedCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -81,18 +119,6 @@ class UserCreateInput {
     nullable: true,
   })
   lastName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => NotificationCreateNestedManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => NotificationCreateNestedManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => NotificationCreateNestedManyWithoutUsersInput, {
-    nullable: true,
-  })
-  notifications?: NotificationCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: true,

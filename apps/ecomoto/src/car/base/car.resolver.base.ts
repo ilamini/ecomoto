@@ -26,8 +26,6 @@ import { CarCountArgs } from "./CarCountArgs";
 import { CarFindManyArgs } from "./CarFindManyArgs";
 import { CarFindUniqueArgs } from "./CarFindUniqueArgs";
 import { Car } from "./Car";
-import { CarImageFindManyArgs } from "../../carImage/base/CarImageFindManyArgs";
-import { CarImage } from "../../carImage/base/CarImage";
 import { RentalFindManyArgs } from "../../rental/base/RentalFindManyArgs";
 import { Rental } from "../../rental/base/Rental";
 import { User } from "../../user/base/User";
@@ -147,26 +145,6 @@ export class CarResolverBase {
       }
       throw error;
     }
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [CarImage], { name: "carImages" })
-  @nestAccessControl.UseRoles({
-    resource: "CarImage",
-    action: "read",
-    possession: "any",
-  })
-  async resolveFieldCarImages(
-    @graphql.Parent() parent: Car,
-    @graphql.Args() args: CarImageFindManyArgs
-  ): Promise<CarImage[]> {
-    const results = await this.service.findCarImages(parent.id, args);
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)

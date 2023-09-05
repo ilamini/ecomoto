@@ -7,6 +7,7 @@ export type CarOrderByInput = {
   lessorIdId?: SortOrder;
   make?: SortOrder;
   model?: SortOrder;
+  parkedLocation?: SortOrder;
   registrationInfo?: SortOrder;
   updatedAt?: SortOrder;
 };

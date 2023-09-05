@@ -10,7 +10,15 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, User, Car, Notification, Rental } from "@prisma/client";
+import {
+  Prisma,
+  User,
+  Car,
+  Comment,
+  Community,
+  CommunityFeed,
+  Rental,
+} from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 
@@ -83,15 +91,37 @@ export class UserServiceBase {
       .cars(args);
   }
 
-  async findNotifications(
+  async findComments(
     parentId: string,
-    args: Prisma.NotificationFindManyArgs
-  ): Promise<Notification[]> {
+    args: Prisma.CommentFindManyArgs
+  ): Promise<Comment[]> {
     return this.prisma.user
       .findUniqueOrThrow({
         where: { id: parentId },
       })
-      .notifications(args);
+      .comments(args);
+  }
+
+  async findCommunities(
+    parentId: string,
+    args: Prisma.CommunityFindManyArgs
+  ): Promise<Community[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .communities(args);
+  }
+
+  async findCommunityFeeds(
+    parentId: string,
+    args: Prisma.CommunityFeedFindManyArgs
+  ): Promise<CommunityFeed[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .communityFeeds(args);
   }
 
   async findRentals(
