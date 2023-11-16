@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CarCreateNestedManyWithoutUsersInput } from "./CarCreateNestedManyWithoutUsersInput";
+import { CommentLikeCreateNestedManyWithoutUsersInput } from "./CommentLikeCreateNestedManyWithoutUsersInput";
 import {
   ValidateNested,
   IsOptional,
@@ -23,7 +23,7 @@ import { Type } from "class-transformer";
 import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 import { CommunityCreateNestedManyWithoutUsersInput } from "./CommunityCreateNestedManyWithoutUsersInput";
 import { CommunityFeedCreateNestedManyWithoutUsersInput } from "./CommunityFeedCreateNestedManyWithoutUsersInput";
-import { RentalCreateNestedManyWithoutUsersInput } from "./RentalCreateNestedManyWithoutUsersInput";
+import { FeedLikeCreateNestedManyWithoutUsersInput } from "./FeedLikeCreateNestedManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
@@ -33,15 +33,15 @@ import { EnumUserUserType } from "./EnumUserUserType";
 class UserCreateInput {
   @ApiProperty({
     required: false,
-    type: () => CarCreateNestedManyWithoutUsersInput,
+    type: () => CommentLikeCreateNestedManyWithoutUsersInput,
   })
   @ValidateNested()
-  @Type(() => CarCreateNestedManyWithoutUsersInput)
+  @Type(() => CommentLikeCreateNestedManyWithoutUsersInput)
   @IsOptional()
-  @Field(() => CarCreateNestedManyWithoutUsersInput, {
+  @Field(() => CommentLikeCreateNestedManyWithoutUsersInput, {
     nullable: true,
   })
-  cars?: CarCreateNestedManyWithoutUsersInput;
+  commentLikes?: CommentLikeCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -100,6 +100,18 @@ class UserCreateInput {
 
   @ApiProperty({
     required: false,
+    type: () => FeedLikeCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => FeedLikeCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => FeedLikeCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  feedLikes?: FeedLikeCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -127,18 +139,6 @@ class UserCreateInput {
   @IsString()
   @Field(() => String)
   password!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => RentalCreateNestedManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => RentalCreateNestedManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => RentalCreateNestedManyWithoutUsersInput, {
-    nullable: true,
-  })
-  rentals?: RentalCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: true,

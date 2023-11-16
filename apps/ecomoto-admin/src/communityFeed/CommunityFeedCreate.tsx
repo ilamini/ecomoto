@@ -14,6 +14,8 @@ import {
 import { CommentTitle } from "../comment/CommentTitle";
 import { CommunityTitle } from "../community/CommunityTitle";
 import { UserTitle } from "../user/UserTitle";
+import { FeedLikeTitle } from "../feedLike/FeedLikeTitle";
+import { MediaTitle } from "../media/MediaTitle";
 
 export const CommunityFeedCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -38,6 +40,22 @@ export const CommunityFeedCreate = (props: CreateProps): React.ReactElement => {
         <ReferenceInput source="creator.id" reference="User" label="creator">
           <SelectInput optionText={UserTitle} />
         </ReferenceInput>
+        <ReferenceArrayInput
+          source="feedLikes"
+          reference="FeedLike"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={FeedLikeTitle} />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="medias"
+          reference="Media"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={MediaTitle} />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Create>
   );

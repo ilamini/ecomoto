@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CarListRelationFilter } from "../../car/base/CarListRelationFilter";
+import { CommentLikeListRelationFilter } from "../../commentLike/base/CommentLikeListRelationFilter";
 import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
 import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
@@ -19,23 +19,23 @@ import { CommunityListRelationFilter } from "../../community/base/CommunityListR
 import { CommunityFeedListRelationFilter } from "../../communityFeed/base/CommunityFeedListRelationFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { FeedLikeListRelationFilter } from "../../feedLike/base/FeedLikeListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { RentalListRelationFilter } from "../../rental/base/RentalListRelationFilter";
 import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
 class UserWhereInput {
   @ApiProperty({
     required: false,
-    type: () => CarListRelationFilter,
+    type: () => CommentLikeListRelationFilter,
   })
   @ValidateNested()
-  @Type(() => CarListRelationFilter)
+  @Type(() => CommentLikeListRelationFilter)
   @IsOptional()
-  @Field(() => CarListRelationFilter, {
+  @Field(() => CommentLikeListRelationFilter, {
     nullable: true,
   })
-  cars?: CarListRelationFilter;
+  commentLikes?: CommentLikeListRelationFilter;
 
   @ApiProperty({
     required: false,
@@ -97,6 +97,18 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
+    type: () => FeedLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => FeedLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => FeedLikeListRelationFilter, {
+    nullable: true,
+  })
+  feedLikes?: FeedLikeListRelationFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringNullableFilter,
   })
   @Type(() => StringNullableFilter)
@@ -127,18 +139,6 @@ class UserWhereInput {
     nullable: true,
   })
   lastName?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => RentalListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => RentalListRelationFilter)
-  @IsOptional()
-  @Field(() => RentalListRelationFilter, {
-    nullable: true,
-  })
-  rentals?: RentalListRelationFilter;
 
   @ApiProperty({
     required: false,

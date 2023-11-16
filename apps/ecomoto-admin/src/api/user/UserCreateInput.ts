@@ -1,21 +1,21 @@
-import { CarCreateNestedManyWithoutUsersInput } from "./CarCreateNestedManyWithoutUsersInput";
+import { CommentLikeCreateNestedManyWithoutUsersInput } from "./CommentLikeCreateNestedManyWithoutUsersInput";
 import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 import { CommunityCreateNestedManyWithoutUsersInput } from "./CommunityCreateNestedManyWithoutUsersInput";
 import { CommunityFeedCreateNestedManyWithoutUsersInput } from "./CommunityFeedCreateNestedManyWithoutUsersInput";
-import { RentalCreateNestedManyWithoutUsersInput } from "./RentalCreateNestedManyWithoutUsersInput";
+import { FeedLikeCreateNestedManyWithoutUsersInput } from "./FeedLikeCreateNestedManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
 
 export type UserCreateInput = {
-  cars?: CarCreateNestedManyWithoutUsersInput;
+  commentLikes?: CommentLikeCreateNestedManyWithoutUsersInput;
   comments?: CommentCreateNestedManyWithoutUsersInput;
   communities?: CommunityCreateNestedManyWithoutUsersInput;
   communityFeeds?: CommunityFeedCreateNestedManyWithoutUsersInput;
   deletedAt?: Date | null;
   email: string;
+  feedLikes?: FeedLikeCreateNestedManyWithoutUsersInput;
   firstName?: string | null;
   lastName?: string | null;
   password: string;
-  rentals?: RentalCreateNestedManyWithoutUsersInput;
   roles: InputJsonValue;
   username: string;
   userType: "Lessee" | "Lessor";

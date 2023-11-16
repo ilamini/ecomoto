@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CarUpdateManyWithoutUsersInput } from "./CarUpdateManyWithoutUsersInput";
+import { CommentLikeUpdateManyWithoutUsersInput } from "./CommentLikeUpdateManyWithoutUsersInput";
 import {
   ValidateNested,
   IsOptional,
@@ -23,7 +23,7 @@ import { Type } from "class-transformer";
 import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
 import { CommunityUpdateManyWithoutUsersInput } from "./CommunityUpdateManyWithoutUsersInput";
 import { CommunityFeedUpdateManyWithoutUsersInput } from "./CommunityFeedUpdateManyWithoutUsersInput";
-import { RentalUpdateManyWithoutUsersInput } from "./RentalUpdateManyWithoutUsersInput";
+import { FeedLikeUpdateManyWithoutUsersInput } from "./FeedLikeUpdateManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
@@ -33,15 +33,15 @@ import { EnumUserUserType } from "./EnumUserUserType";
 class UserUpdateInput {
   @ApiProperty({
     required: false,
-    type: () => CarUpdateManyWithoutUsersInput,
+    type: () => CommentLikeUpdateManyWithoutUsersInput,
   })
   @ValidateNested()
-  @Type(() => CarUpdateManyWithoutUsersInput)
+  @Type(() => CommentLikeUpdateManyWithoutUsersInput)
   @IsOptional()
-  @Field(() => CarUpdateManyWithoutUsersInput, {
+  @Field(() => CommentLikeUpdateManyWithoutUsersInput, {
     nullable: true,
   })
-  cars?: CarUpdateManyWithoutUsersInput;
+  commentLikes?: CommentLikeUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -103,6 +103,18 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: () => FeedLikeUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => FeedLikeUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => FeedLikeUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  feedLikes?: FeedLikeUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -133,18 +145,6 @@ class UserUpdateInput {
     nullable: true,
   })
   password?: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => RentalUpdateManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => RentalUpdateManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => RentalUpdateManyWithoutUsersInput, {
-    nullable: true,
-  })
-  rentals?: RentalUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

@@ -13,11 +13,11 @@ import { PrismaService } from "../../prisma/prisma.service";
 import {
   Prisma,
   User,
-  Car,
+  CommentLike,
   Comment,
   Community,
   CommunityFeed,
-  Rental,
+  FeedLike,
 } from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
@@ -80,15 +80,15 @@ export class UserServiceBase {
     return this.prisma.user.delete(args);
   }
 
-  async findCars(
+  async findCommentLikes(
     parentId: string,
-    args: Prisma.CarFindManyArgs
-  ): Promise<Car[]> {
+    args: Prisma.CommentLikeFindManyArgs
+  ): Promise<CommentLike[]> {
     return this.prisma.user
       .findUniqueOrThrow({
         where: { id: parentId },
       })
-      .cars(args);
+      .commentLikes(args);
   }
 
   async findComments(
@@ -124,14 +124,14 @@ export class UserServiceBase {
       .communityFeeds(args);
   }
 
-  async findRentals(
+  async findFeedLikes(
     parentId: string,
-    args: Prisma.RentalFindManyArgs
-  ): Promise<Rental[]> {
+    args: Prisma.FeedLikeFindManyArgs
+  ): Promise<FeedLike[]> {
     return this.prisma.user
       .findUniqueOrThrow({
         where: { id: parentId },
       })
-      .rentals(args);
+      .feedLikes(args);
   }
 }

@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -26,16 +26,16 @@ import { UserCountArgs } from "./UserCountArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
-import { CarFindManyArgs } from "../../car/base/CarFindManyArgs";
-import { Car } from "../../car/base/Car";
+import { CommentLikeFindManyArgs } from "../../commentLike/base/CommentLikeFindManyArgs";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
 import { Comment } from "../../comment/base/Comment";
 import { CommunityFindManyArgs } from "../../community/base/CommunityFindManyArgs";
 import { Community } from "../../community/base/Community";
 import { CommunityFeedFindManyArgs } from "../../communityFeed/base/CommunityFeedFindManyArgs";
 import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
-import { RentalFindManyArgs } from "../../rental/base/RentalFindManyArgs";
-import { Rental } from "../../rental/base/Rental";
+import { FeedLikeFindManyArgs } from "../../feedLike/base/FeedLikeFindManyArgs";
+import { FeedLike } from "../../feedLike/base/FeedLike";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -115,7 +115,7 @@ export class UserResolverBase {
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -134,7 +134,7 @@ export class UserResolverBase {
       return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -143,17 +143,17 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Car], { name: "cars" })
+  @graphql.ResolveField(() => [CommentLike], { name: "commentLikes" })
   @nestAccessControl.UseRoles({
-    resource: "Car",
+    resource: "CommentLike",
     action: "read",
     possession: "any",
   })
-  async resolveFieldCars(
+  async resolveFieldCommentLikes(
     @graphql.Parent() parent: User,
-    @graphql.Args() args: CarFindManyArgs
-  ): Promise<Car[]> {
-    const results = await this.service.findCars(parent.id, args);
+    @graphql.Args() args: CommentLikeFindManyArgs
+  ): Promise<CommentLike[]> {
+    const results = await this.service.findCommentLikes(parent.id, args);
 
     if (!results) {
       return [];
@@ -223,17 +223,17 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Rental], { name: "rentals" })
+  @graphql.ResolveField(() => [FeedLike], { name: "feedLikes" })
   @nestAccessControl.UseRoles({
-    resource: "Rental",
+    resource: "FeedLike",
     action: "read",
     possession: "any",
   })
-  async resolveFieldRentals(
+  async resolveFieldFeedLikes(
     @graphql.Parent() parent: User,
-    @graphql.Args() args: RentalFindManyArgs
-  ): Promise<Rental[]> {
-    const results = await this.service.findRentals(parent.id, args);
+    @graphql.Args() args: FeedLikeFindManyArgs
+  ): Promise<FeedLike[]> {
+    const results = await this.service.findFeedLikes(parent.id, args);
 
     if (!results) {
       return [];

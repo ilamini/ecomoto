@@ -17,6 +17,8 @@ import { Type } from "class-transformer";
 import { CommunityWhereUniqueInput } from "../../community/base/CommunityWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { FeedLikeListRelationFilter } from "../../feedLike/base/FeedLikeListRelationFilter";
+import { MediaListRelationFilter } from "../../media/base/MediaListRelationFilter";
 
 @InputType()
 class CommunityFeedWhereInput {
@@ -69,6 +71,18 @@ class CommunityFeedWhereInput {
 
   @ApiProperty({
     required: false,
+    type: () => FeedLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => FeedLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => FeedLikeListRelationFilter, {
+    nullable: true,
+  })
+  feedLikes?: FeedLikeListRelationFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -77,6 +91,18 @@ class CommunityFeedWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => MediaListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => MediaListRelationFilter)
+  @IsOptional()
+  @Field(() => MediaListRelationFilter, {
+    nullable: true,
+  })
+  medias?: MediaListRelationFilter;
 }
 
 export { CommunityFeedWhereInput as CommunityFeedWhereInput };

@@ -55,6 +55,48 @@ export const CommunityFeedShow = (props: ShowProps): React.ReactElement => {
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>
+        <ReferenceManyField
+          reference="FeedLike"
+          target="communityFeedId"
+          label="FeedLikes"
+        >
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="communityFeed"
+              source="communityfeed.id"
+              reference="CommunityFeed"
+            >
+              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="ID" source="id" />
+            <ReferenceField label="likeBy" source="user.id" reference="User">
+              <TextField source={USER_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
+          reference="Media"
+          target="communittFeedId"
+          label="medias"
+        >
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="communityFeed"
+              source="communityfeed.id"
+              reference="CommunityFeed"
+            >
+              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="createdBy" source="createdBy" />
+            <TextField label="ID" source="id" />
+            <TextField label="imageUrl" source="imageUrl" />
+            <DateField source="updatedAt" label="Updated At" />
+            <TextField label="videoUrl" source="videoUrl" />
+          </Datagrid>
+        </ReferenceManyField>
       </SimpleShowLayout>
     </Show>
   );

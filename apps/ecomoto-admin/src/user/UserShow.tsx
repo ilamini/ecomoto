@@ -11,11 +11,10 @@ import {
   ReferenceField,
 } from "react-admin";
 
+import { COMMENT_TITLE_FIELD } from "../comment/CommentTitle";
 import { USER_TITLE_FIELD } from "./UserTitle";
 import { COMMUNITYFEED_TITLE_FIELD } from "../communityFeed/CommunityFeedTitle";
 import { COMMUNITY_TITLE_FIELD } from "../community/CommunityTitle";
-import { CAR_TITLE_FIELD } from "../car/CarTitle";
-import { PLAN_TITLE_FIELD } from "../plan/PlanTitle";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -31,19 +30,25 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
         <DateField source="updatedAt" label="Updated At" />
         <TextField label="Username" source="username" />
         <TextField label="userType" source="userType" />
-        <ReferenceManyField reference="Car" target="lessorIdId" label="Cars">
+        <ReferenceManyField
+          reference="CommentLike"
+          target="userId"
+          label="commentLikes"
+        >
           <Datagrid rowClick="show">
+            <ReferenceField
+              label="comment"
+              source="comment.id"
+              reference="Comment"
+            >
+              <TextField source={COMMENT_TITLE_FIELD} />
+            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
-            <TextField label="Deleted At" source="deletedAt" />
             <TextField label="ID" source="id" />
-            <ReferenceField label="lessorId" source="user.id" reference="User">
+            <DateField source="updatedAt" label="Updated At" />
+            <ReferenceField label="user" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />
             </ReferenceField>
-            <TextField label="make" source="make" />
-            <TextField label="model" source="model" />
-            <TextField label="parkedLocation" source="parkedLocation" />
-            <TextField label="registration_info" source="registrationInfo" />
-            <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
@@ -91,36 +96,23 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
-          reference="Rental"
-          target="lesseeIdId"
-          label="Rentals"
+          reference="FeedLike"
+          target="likedById"
+          label="FeedLikes"
         >
           <Datagrid rowClick="show">
-            <ReferenceField label="car_id" source="car.id" reference="Car">
-              <TextField source={CAR_TITLE_FIELD} />
+            <ReferenceField
+              label="communityFeed"
+              source="communityfeed.id"
+              reference="CommunityFeed"
+            >
+              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
             </ReferenceField>
             <DateField source="createdAt" label="Created At" />
-            <TextField label="currentLocation" source="currentLocation" />
-            <TextField label="deletedAt" source="deletedAt" />
-            <TextField label="destination" source="destination" />
-            <TextField label="destinationGeoLoc" source="destinationGeoLoc" />
             <TextField label="ID" source="id" />
-            <ReferenceField label="lessee_id" source="user.id" reference="User">
+            <ReferenceField label="likeBy" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />
             </ReferenceField>
-            <TextField label="pickupAddress" source="pickupAddress" />
-            <TextField label="pickupGeoLoc" source="pickupGeoLoc" />
-            <TextField label="pickupTime" source="pickupTime" />
-            <ReferenceField label="planId" source="plan.id" reference="Plan">
-              <TextField source={PLAN_TITLE_FIELD} />
-            </ReferenceField>
-            <TextField label="rentalEndDatetime" source="rentalEndDatetime" />
-            <TextField label="rentalRequestTime" source="rentalRequestTime" />
-            <TextField
-              label="rentalStartDatetime"
-              source="rentalStartDatetime"
-            />
-            <TextField label="rentalStatus" source="rentalStatus" />
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>

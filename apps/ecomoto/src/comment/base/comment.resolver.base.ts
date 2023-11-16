@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -26,6 +26,8 @@ import { CommentCountArgs } from "./CommentCountArgs";
 import { CommentFindManyArgs } from "./CommentFindManyArgs";
 import { CommentFindUniqueArgs } from "./CommentFindUniqueArgs";
 import { Comment } from "./Comment";
+import { CommentLikeFindManyArgs } from "../../commentLike/base/CommentLikeFindManyArgs";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { User } from "../../user/base/User";
 import { CommentService } from "../comment.service";
@@ -143,7 +145,7 @@ export class CommentResolverBase {
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -164,12 +166,32 @@ export class CommentResolverBase {
       return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [CommentLike], { name: "commentLikes" })
+  @nestAccessControl.UseRoles({
+    resource: "CommentLike",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldCommentLikes(
+    @graphql.Parent() parent: Comment,
+    @graphql.Args() args: CommentLikeFindManyArgs
+  ): Promise<CommentLike[]> {
+    const results = await this.service.findCommentLikes(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)

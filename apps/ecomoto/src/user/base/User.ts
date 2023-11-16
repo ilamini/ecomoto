@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { Car } from "../../car/base/Car";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import {
   ValidateNested,
   IsOptional,
@@ -23,7 +23,7 @@ import { Type } from "class-transformer";
 import { Comment } from "../../comment/base/Comment";
 import { Community } from "../../community/base/Community";
 import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
-import { Rental } from "../../rental/base/Rental";
+import { FeedLike } from "../../feedLike/base/FeedLike";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
@@ -33,12 +33,12 @@ import { EnumUserUserType } from "./EnumUserUserType";
 class User {
   @ApiProperty({
     required: false,
-    type: () => [Car],
+    type: () => [CommentLike],
   })
   @ValidateNested()
-  @Type(() => Car)
+  @Type(() => CommentLike)
   @IsOptional()
-  cars?: Array<Car>;
+  commentLikes?: Array<CommentLike>;
 
   @ApiProperty({
     required: false,
@@ -96,6 +96,15 @@ class User {
 
   @ApiProperty({
     required: false,
+    type: () => [FeedLike],
+  })
+  @ValidateNested()
+  @Type(() => FeedLike)
+  @IsOptional()
+  feedLikes?: Array<FeedLike>;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -123,15 +132,6 @@ class User {
     nullable: true,
   })
   lastName!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => [Rental],
-  })
-  @ValidateNested()
-  @Type(() => Rental)
-  @IsOptional()
-  rentals?: Array<Rental>;
 
   @ApiProperty({
     required: true,

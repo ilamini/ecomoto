@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -28,6 +28,10 @@ import { CommunityFeedFindUniqueArgs } from "./CommunityFeedFindUniqueArgs";
 import { CommunityFeed } from "./CommunityFeed";
 import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
 import { Comment } from "../../comment/base/Comment";
+import { FeedLikeFindManyArgs } from "../../feedLike/base/FeedLikeFindManyArgs";
+import { FeedLike } from "../../feedLike/base/FeedLike";
+import { MediaFindManyArgs } from "../../media/base/MediaFindManyArgs";
+import { Media } from "../../media/base/Media";
 import { Community } from "../../community/base/Community";
 import { User } from "../../user/base/User";
 import { CommunityFeedService } from "../communityFeed.service";
@@ -145,7 +149,7 @@ export class CommunityFeedResolverBase {
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -166,7 +170,7 @@ export class CommunityFeedResolverBase {
       return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -186,6 +190,46 @@ export class CommunityFeedResolverBase {
     @graphql.Args() args: CommentFindManyArgs
   ): Promise<Comment[]> {
     const results = await this.service.findComments(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [FeedLike], { name: "feedLikes" })
+  @nestAccessControl.UseRoles({
+    resource: "FeedLike",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldFeedLikes(
+    @graphql.Parent() parent: CommunityFeed,
+    @graphql.Args() args: FeedLikeFindManyArgs
+  ): Promise<FeedLike[]> {
+    const results = await this.service.findFeedLikes(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Media], { name: "medias" })
+  @nestAccessControl.UseRoles({
+    resource: "Media",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldMedias(
+    @graphql.Parent() parent: CommunityFeed,
+    @graphql.Args() args: MediaFindManyArgs
+  ): Promise<Media[]> {
+    const results = await this.service.findMedias(parent.id, args);
 
     if (!results) {
       return [];

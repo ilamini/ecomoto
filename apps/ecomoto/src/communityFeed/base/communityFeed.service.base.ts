@@ -14,6 +14,8 @@ import {
   Prisma,
   CommunityFeed,
   Comment,
+  FeedLike,
+  Media,
   Community,
   User,
 } from "@prisma/client";
@@ -62,6 +64,28 @@ export class CommunityFeedServiceBase {
         where: { id: parentId },
       })
       .comments(args);
+  }
+
+  async findFeedLikes(
+    parentId: string,
+    args: Prisma.FeedLikeFindManyArgs
+  ): Promise<FeedLike[]> {
+    return this.prisma.communityFeed
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .feedLikes(args);
+  }
+
+  async findMedias(
+    parentId: string,
+    args: Prisma.MediaFindManyArgs
+  ): Promise<Media[]> {
+    return this.prisma.communityFeed
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .medias(args);
   }
 
   async getCommunity(parentId: string): Promise<Community | null> {

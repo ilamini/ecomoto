@@ -1,20 +1,19 @@
-import { Module, Scope } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
-import { MorganInterceptor, MorganModule } from "nest-morgan";
+import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
-import { CarModule } from "./car/car.module";
-import { RentalModule } from "./rental/rental.module";
-import { PlanModule } from "./plan/plan.module";
 import { CommunityModule } from "./community/community.module";
 import { CommunityFeedModule } from "./communityFeed/communityFeed.module";
 import { CommentModule } from "./comment/comment.module";
+import { MediaModule } from "./media/media.module";
+import { FeedLikeModule } from "./feedLike/feedLike.module";
+import { CommentLikeModule } from "./commentLike/commentLike.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
-import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
@@ -25,22 +24,22 @@ import { AuthModule } from "./auth/auth.module";
     ACLModule,
     AuthModule,
     UserModule,
-    CarModule,
-    RentalModule,
-    PlanModule,
     CommunityModule,
     CommunityFeedModule,
     CommentModule,
+    MediaModule,
+    FeedLikeModule,
+    CommentLikeModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
-    MorganModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRootAsync({
       useClass: ServeStaticOptionsService,
     }),
-    GraphQLModule.forRootAsync({
-      useFactory: (configService) => {
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      useFactory: (configService: ConfigService) => {
         const playground = configService.get("GRAPHQL_PLAYGROUND");
         const introspection = configService.get("GRAPHQL_INTROSPECTION");
         return {
@@ -54,12 +53,6 @@ import { AuthModule } from "./auth/auth.module";
       imports: [ConfigModule],
     }),
   ],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      scope: Scope.REQUEST,
-      useClass: MorganInterceptor("combined"),
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

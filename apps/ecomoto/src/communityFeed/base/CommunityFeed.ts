@@ -16,6 +16,8 @@ import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
 import { Type } from "class-transformer";
 import { Community } from "../../community/base/Community";
 import { User } from "../../user/base/User";
+import { FeedLike } from "../../feedLike/base/FeedLike";
+import { Media } from "../../media/base/Media";
 
 @ObjectType()
 class CommunityFeed {
@@ -63,12 +65,30 @@ class CommunityFeed {
   creator?: User | null;
 
   @ApiProperty({
+    required: false,
+    type: () => [FeedLike],
+  })
+  @ValidateNested()
+  @Type(() => FeedLike)
+  @IsOptional()
+  feedLikes?: Array<FeedLike>;
+
+  @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Media],
+  })
+  @ValidateNested()
+  @Type(() => Media)
+  @IsOptional()
+  medias?: Array<Media>;
 
   @ApiProperty({
     required: true,
