@@ -11,15 +11,28 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { CommentLikeListRelationFilter } from "../../commentLike/base/CommentLikeListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { CommunityFeedWhereUniqueInput } from "../../communityFeed/base/CommunityFeedWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class CommentWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => CommentLikeListRelationFilter, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,

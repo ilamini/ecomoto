@@ -16,6 +16,8 @@ import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { CommunityWhereUniqueInput } from "../../community/base/CommunityWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { FeedLikeCreateNestedManyWithoutCommunityFeedsInput } from "./FeedLikeCreateNestedManyWithoutCommunityFeedsInput";
+import { MediaCreateNestedManyWithoutCommunityFeedsInput } from "./MediaCreateNestedManyWithoutCommunityFeedsInput";
 
 @InputType()
 class CommunityFeedCreateInput {
@@ -62,6 +64,30 @@ class CommunityFeedCreateInput {
     nullable: true,
   })
   creator?: UserWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => FeedLikeCreateNestedManyWithoutCommunityFeedsInput,
+  })
+  @ValidateNested()
+  @Type(() => FeedLikeCreateNestedManyWithoutCommunityFeedsInput)
+  @IsOptional()
+  @Field(() => FeedLikeCreateNestedManyWithoutCommunityFeedsInput, {
+    nullable: true,
+  })
+  feedLikes?: FeedLikeCreateNestedManyWithoutCommunityFeedsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => MediaCreateNestedManyWithoutCommunityFeedsInput,
+  })
+  @ValidateNested()
+  @Type(() => MediaCreateNestedManyWithoutCommunityFeedsInput)
+  @IsOptional()
+  @Field(() => MediaCreateNestedManyWithoutCommunityFeedsInput, {
+    nullable: true,
+  })
+  medias?: MediaCreateNestedManyWithoutCommunityFeedsInput;
 }
 
 export { CommunityFeedCreateInput as CommunityFeedCreateInput };

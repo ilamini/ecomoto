@@ -12,11 +12,11 @@ import {
   SelectInput,
 } from "react-admin";
 
-import { CarTitle } from "../car/CarTitle";
+import { CommentLikeTitle } from "../commentLike/CommentLikeTitle";
 import { CommentTitle } from "../comment/CommentTitle";
 import { CommunityTitle } from "../community/CommunityTitle";
 import { CommunityFeedTitle } from "../communityFeed/CommunityFeedTitle";
-import { RentalTitle } from "../rental/RentalTitle";
+import { FeedLikeTitle } from "../feedLike/FeedLikeTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
 
 export const UserCreate = (props: CreateProps): React.ReactElement => {
@@ -24,12 +24,12 @@ export const UserCreate = (props: CreateProps): React.ReactElement => {
     <Create {...props}>
       <SimpleForm>
         <ReferenceArrayInput
-          source="cars"
-          reference="Car"
+          source="commentLikes"
+          reference="CommentLike"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}
         >
-          <SelectArrayInput optionText={CarTitle} />
+          <SelectArrayInput optionText={CommentLikeTitle} />
         </ReferenceArrayInput>
         <ReferenceArrayInput
           source="comments"
@@ -57,17 +57,17 @@ export const UserCreate = (props: CreateProps): React.ReactElement => {
         </ReferenceArrayInput>
         <DateInput label="Deleted At" source="deletedAt" />
         <TextInput label="email" source="email" type="email" />
-        <TextInput label="First Name" source="firstName" />
-        <TextInput label="Last Name" source="lastName" />
-        <PasswordInput label="Password" source="password" />
         <ReferenceArrayInput
-          source="rentals"
-          reference="Rental"
+          source="feedLikes"
+          reference="FeedLike"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}
         >
-          <SelectArrayInput optionText={RentalTitle} />
+          <SelectArrayInput optionText={FeedLikeTitle} />
         </ReferenceArrayInput>
+        <TextInput label="First Name" source="firstName" />
+        <TextInput label="Last Name" source="lastName" />
+        <PasswordInput label="Password" source="password" />
         <SelectArrayInput
           source="roles"
           choices={ROLES_OPTIONS}

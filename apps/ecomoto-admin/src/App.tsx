@@ -9,18 +9,6 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
-import { CarList } from "./car/CarList";
-import { CarCreate } from "./car/CarCreate";
-import { CarEdit } from "./car/CarEdit";
-import { CarShow } from "./car/CarShow";
-import { RentalList } from "./rental/RentalList";
-import { RentalCreate } from "./rental/RentalCreate";
-import { RentalEdit } from "./rental/RentalEdit";
-import { RentalShow } from "./rental/RentalShow";
-import { PlanList } from "./plan/PlanList";
-import { PlanCreate } from "./plan/PlanCreate";
-import { PlanEdit } from "./plan/PlanEdit";
-import { PlanShow } from "./plan/PlanShow";
 import { CommunityList } from "./community/CommunityList";
 import { CommunityCreate } from "./community/CommunityCreate";
 import { CommunityEdit } from "./community/CommunityEdit";
@@ -33,6 +21,18 @@ import { CommentList } from "./comment/CommentList";
 import { CommentCreate } from "./comment/CommentCreate";
 import { CommentEdit } from "./comment/CommentEdit";
 import { CommentShow } from "./comment/CommentShow";
+import { MediaList } from "./media/MediaList";
+import { MediaCreate } from "./media/MediaCreate";
+import { MediaEdit } from "./media/MediaEdit";
+import { MediaShow } from "./media/MediaShow";
+import { FeedLikeList } from "./feedLike/FeedLikeList";
+import { FeedLikeCreate } from "./feedLike/FeedLikeCreate";
+import { FeedLikeEdit } from "./feedLike/FeedLikeEdit";
+import { FeedLikeShow } from "./feedLike/FeedLikeShow";
+import { CommentLikeList } from "./commentLike/CommentLikeList";
+import { CommentLikeCreate } from "./commentLike/CommentLikeCreate";
+import { CommentLikeEdit } from "./commentLike/CommentLikeEdit";
+import { CommentLikeShow } from "./commentLike/CommentLikeShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -67,27 +67,6 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
-          name="Car"
-          list={CarList}
-          edit={CarEdit}
-          create={CarCreate}
-          show={CarShow}
-        />
-        <Resource
-          name="Rental"
-          list={RentalList}
-          edit={RentalEdit}
-          create={RentalCreate}
-          show={RentalShow}
-        />
-        <Resource
-          name="Plan"
-          list={PlanList}
-          edit={PlanEdit}
-          create={PlanCreate}
-          show={PlanShow}
-        />
-        <Resource
           name="Community"
           list={CommunityList}
           edit={CommunityEdit}
@@ -107,6 +86,27 @@ const App = (): React.ReactElement => {
           edit={CommentEdit}
           create={CommentCreate}
           show={CommentShow}
+        />
+        <Resource
+          name="Media"
+          list={MediaList}
+          edit={MediaEdit}
+          create={MediaCreate}
+          show={MediaShow}
+        />
+        <Resource
+          name="FeedLike"
+          list={FeedLikeList}
+          edit={FeedLikeEdit}
+          create={FeedLikeCreate}
+          show={FeedLikeShow}
+        />
+        <Resource
+          name="CommentLike"
+          list={CommentLikeList}
+          edit={CommentLikeEdit}
+          create={CommentLikeCreate}
+          show={CommentLikeShow}
         />
       </Admin>
     </div>

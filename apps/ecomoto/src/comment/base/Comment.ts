@@ -11,13 +11,23 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, ValidateNested, IsDate } from "class-validator";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
+import { CommentLike } from "../../commentLike/base/CommentLike";
+import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
 import { Type } from "class-transformer";
+import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { User } from "../../user/base/User";
 
 @ObjectType()
 class Comment {
+  @ApiProperty({
+    required: false,
+    type: () => [CommentLike],
+  })
+  @ValidateNested()
+  @Type(() => CommentLike)
+  @IsOptional()
+  commentLikes?: Array<CommentLike>;
+
   @ApiProperty({
     required: false,
     type: String,

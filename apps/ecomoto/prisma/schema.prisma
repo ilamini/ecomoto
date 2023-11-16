@@ -8,68 +8,23 @@ generator client {
 }
 
 model User {
-  cars           Car[]
+  commentLikes   CommentLike[]
   comments       Comment[]
   communities    Community[]     @relation(fields: [communitiesIds], references: [id])
-  communitiesIds String[]        @mongo.ObjectId
+  communitiesIds String[]        @db.ObjectId
   communityFeeds CommunityFeed[]
   createdAt      DateTime        @default(now())
   deletedAt      DateTime?
   email          String          @unique
+  feedLikes      FeedLike[]
   firstName      String?
-  id             String          @id @default(auto()) @map("_id") @mongo.ObjectId
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
   lastName       String?
   password       String
-  rentals        Rental[]
   roles          Json
   updatedAt      DateTime        @updatedAt
   username       String          @unique
   userType EnumUserUserType @default('Lessee')
-}
-
-model Car {
-  createdAt        DateTime  @default(now())
-  deletedAt        DateTime?
-  id               String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  lessorId         User      @relation(fields: [lessorIdId], references: [id])
-  lessorIdId       String
-  make             String
-  model            String
-  parkedLocation   Json?
-  registrationInfo String
-  rentals          Rental[]
-  updatedAt        DateTime  @updatedAt
-}
-
-model Rental {
-  carId               Car                     @relation(fields: [carIdId], references: [id])
-  carIdId             String
-  createdAt           DateTime                @default(now())
-  currentLocation     String?
-  deletedAt           DateTime?
-  destination         String
-  destinationGeoLoc   String
-  id                  String                  @id @default(auto()) @map("_id") @mongo.ObjectId
-  lesseeId            User                    @relation(fields: [lesseeIdId], references: [id])
-  lesseeIdId          String
-  pickupAddress       String
-  pickupGeoLoc        String
-  pickupTime          DateTime?
-  planId              Plan                    @relation(fields: [sa], references: [id])
-  sa                  String
-  rentalEndDatetime   DateTime
-  rentalRequestTime   DateTime
-  rentalStartDatetime DateTime
-  rentalStatus        EnumRentalRentalStatus?
-  updatedAt           DateTime                @updatedAt
-}
-
-model Plan {
-  createdAt DateTime @default(now())
-  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
-  name      String
-  rentals   Rental[]
-  updatedAt DateTime @updatedAt
 }
 
 model Community {
@@ -77,9 +32,9 @@ model Community {
   communityHeadeImgUrl String
   createdAt            DateTime        @default(now())
   description          String
-  id                   String          @id @default(auto()) @map("_id") @mongo.ObjectId
+  id                   String          @id @default(auto()) @map("_id") @db.ObjectId
   members              User[]          @relation(fields: [membersIds], references: [id])
-  membersIds           String[]        @mongo.ObjectId
+  membersIds           String[]        @db.ObjectId
   name                 String
   updatedAt            DateTime        @updatedAt
 }
@@ -87,37 +42,61 @@ model Community {
 model CommunityFeed {
   comments    Comment[]
   community   Community? @relation(fields: [communityId], references: [id])
-  communityId String?
+  communityId String?    @db.ObjectId
   content     String
   createdAt   DateTime   @default(now())
   creator     User?      @relation(fields: [ds], references: [id])
-  ds          String?
-  id          String     @id @default(auto()) @map("_id") @mongo.ObjectId
+  ds          String?    @db.ObjectId
+  feedLikes   FeedLike[]
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  medias      Media[]
   updatedAt   DateTime   @updatedAt
 }
 
 model Comment {
+  commentLikes    CommentLike[]
   comments        String?
   communityFeed   CommunityFeed? @relation(fields: [communityFeedId], references: [id])
-  communityFeedId String?
+  communityFeedId String?        @db.ObjectId
   createdAt       DateTime       @default(now())
   creator         User?          @relation(fields: [user_id], references: [id])
-  user_id         String?
-  id              String         @id @default(auto()) @map("_id") @mongo.ObjectId
+  user_id         String?        @db.ObjectId
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
   updatedAt       DateTime       @updatedAt
+}
+
+model Media {
+  communittFeed   CommunityFeed? @relation(fields: [communittFeedId], references: [id])
+  communittFeedId String?        @db.ObjectId
+  createdAt       DateTime       @default(now())
+  createdBy       String?
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl        String?
+  updatedAt       DateTime       @updatedAt
+  videoUrl        String?
+}
+
+model FeedLike {
+  communityFeed   CommunityFeed? @relation(fields: [communityFeedId], references: [id])
+  communityFeedId String?        @db.ObjectId
+  createdAt       DateTime       @default(now())
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  likedBy         User           @relation(fields: [likedById], references: [id])
+  likedById       String         @db.ObjectId
+  updatedAt       DateTime       @updatedAt
+}
+
+model CommentLike {
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?  @db.ObjectId
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @db.ObjectId
 }
 
 enum EnumUserUserType {
   Lessee
   Lessor
-}
-
-enum EnumRentalRentalStatus {
-  Requesting
-  Accepted
-  Rejected
-  Active
-  Completed
-  Extended
-  Settled
 }
