@@ -22,11 +22,10 @@ import {
 import { Type } from "class-transformer";
 import { Comment } from "../../comment/base/Comment";
 import { Community } from "../../community/base/Community";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
-import { FeedLike } from "../../feedLike/base/FeedLike";
-import { IsJSONValue } from "@app/custom-validators";
+import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { UserFeed } from "../../userFeed/base/UserFeed";
 import { EnumUserUserType } from "./EnumUserUserType";
 
 @ObjectType()
@@ -59,15 +58,6 @@ class User {
   communities?: Array<Community>;
 
   @ApiProperty({
-    required: false,
-    type: () => [CommunityFeed],
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeed)
-  @IsOptional()
-  communityFeeds?: Array<CommunityFeed>;
-
-  @ApiProperty({
     required: true,
   })
   @IsDate()
@@ -93,15 +83,6 @@ class User {
   @IsString()
   @Field(() => String)
   email!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => [FeedLike],
-  })
-  @ValidateNested()
-  @Type(() => FeedLike)
-  @IsOptional()
-  feedLikes?: Array<FeedLike>;
 
   @ApiProperty({
     required: false,
@@ -147,6 +128,15 @@ class User {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: () => [UserFeed],
+  })
+  @ValidateNested()
+  @Type(() => UserFeed)
+  @IsOptional()
+  userFeeds?: Array<UserFeed>;
 
   @ApiProperty({
     required: true,

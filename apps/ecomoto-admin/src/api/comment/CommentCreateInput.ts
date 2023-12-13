@@ -1,10 +1,10 @@
 import { CommentLikeCreateNestedManyWithoutCommentsInput } from "./CommentLikeCreateNestedManyWithoutCommentsInput";
-import { CommunityFeedWhereUniqueInput } from "../communityFeed/CommunityFeedWhereUniqueInput";
 import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
+import { UserFeedWhereUniqueInput } from "../userFeed/UserFeedWhereUniqueInput";
 
 export type CommentCreateInput = {
   commentLikes?: CommentLikeCreateNestedManyWithoutCommentsInput;
   comments?: string | null;
-  communityFeed?: CommunityFeedWhereUniqueInput | null;
   creator?: UserWhereUniqueInput | null;
+  userFeed?: UserFeedWhereUniqueInput | null;
 };

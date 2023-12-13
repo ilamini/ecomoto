@@ -4,12 +4,12 @@ import {
   Datagrid,
   ListProps,
   TextField,
-  ReferenceField,
   DateField,
+  ReferenceField,
 } from "react-admin";
 import Pagination from "../Components/Pagination";
-import { COMMUNITYFEED_TITLE_FIELD } from "../communityFeed/CommunityFeedTitle";
 import { USER_TITLE_FIELD } from "../user/UserTitle";
+import { USERFEED_TITLE_FIELD } from "../userFeed/UserFeedTitle";
 
 export const CommentList = (props: ListProps): React.ReactElement => {
   return (
@@ -22,19 +22,19 @@ export const CommentList = (props: ListProps): React.ReactElement => {
     >
       <Datagrid rowClick="show">
         <TextField label="comments" source="comments" />
-        <ReferenceField
-          label="CommunityFeed"
-          source="communityfeed.id"
-          reference="CommunityFeed"
-        >
-          <TextField source={COMMUNITYFEED_TITLE_FIELD} />
-        </ReferenceField>
         <DateField source="createdAt" label="Created At" />
         <ReferenceField label="creator" source="user.id" reference="User">
           <TextField source={USER_TITLE_FIELD} />
         </ReferenceField>
         <TextField label="ID" source="id" />
         <DateField source="updatedAt" label="Updated At" />
+        <ReferenceField
+          label="UserFeed"
+          source="userfeed.id"
+          reference="UserFeed"
+        >
+          <TextField source={USERFEED_TITLE_FIELD} />
+        </ReferenceField>
       </Datagrid>
     </List>
   );

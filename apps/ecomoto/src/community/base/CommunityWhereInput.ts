@@ -11,26 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommunityFeedListRelationFilter } from "../../communityFeed/base/CommunityFeedListRelationFilter";
-import { ValidateNested, IsOptional } from "class-validator";
-import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
+import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
 import { UserListRelationFilter } from "../../user/base/UserListRelationFilter";
 
 @InputType()
 class CommunityWhereInput {
-  @ApiProperty({
-    required: false,
-    type: () => CommunityFeedListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedListRelationFilter)
-  @IsOptional()
-  @Field(() => CommunityFeedListRelationFilter, {
-    nullable: true,
-  })
-  communityFeeds?: CommunityFeedListRelationFilter;
-
   @ApiProperty({
     required: false,
     type: StringFilter,

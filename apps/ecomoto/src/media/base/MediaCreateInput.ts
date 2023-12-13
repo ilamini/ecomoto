@@ -11,24 +11,12 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommunityFeedWhereUniqueInput } from "../../communityFeed/base/CommunityFeedWhereUniqueInput";
-import { ValidateNested, IsOptional, IsString } from "class-validator";
+import { IsString, IsOptional, ValidateNested } from "class-validator";
+import { UserFeedWhereUniqueInput } from "../../userFeed/base/UserFeedWhereUniqueInput";
 import { Type } from "class-transformer";
 
 @InputType()
 class MediaCreateInput {
-  @ApiProperty({
-    required: false,
-    type: () => CommunityFeedWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedWhereUniqueInput)
-  @IsOptional()
-  @Field(() => CommunityFeedWhereUniqueInput, {
-    nullable: true,
-  })
-  communittFeed?: CommunityFeedWhereUniqueInput | null;
-
   @ApiProperty({
     required: false,
     type: String,
@@ -50,6 +38,18 @@ class MediaCreateInput {
     nullable: true,
   })
   imageUrl?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserFeedWhereUniqueInput, {
+    nullable: true,
+  })
+  userFeed?: UserFeedWhereUniqueInput | null;
 
   @ApiProperty({
     required: false,

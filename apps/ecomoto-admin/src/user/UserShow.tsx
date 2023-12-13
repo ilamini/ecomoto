@@ -13,8 +13,7 @@ import {
 
 import { COMMENT_TITLE_FIELD } from "../comment/CommentTitle";
 import { USER_TITLE_FIELD } from "./UserTitle";
-import { COMMUNITYFEED_TITLE_FIELD } from "../communityFeed/CommunityFeedTitle";
-import { COMMUNITY_TITLE_FIELD } from "../community/CommunityTitle";
+import { USERFEED_TITLE_FIELD } from "../userFeed/UserFeedTitle";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -58,61 +57,33 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
         >
           <Datagrid rowClick="show">
             <TextField label="comments" source="comments" />
-            <ReferenceField
-              label="CommunityFeed"
-              source="communityfeed.id"
-              reference="CommunityFeed"
-            >
-              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
-            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
             <ReferenceField label="creator" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />
             </ReferenceField>
             <TextField label="ID" source="id" />
             <DateField source="updatedAt" label="Updated At" />
+            <ReferenceField
+              label="UserFeed"
+              source="userfeed.id"
+              reference="UserFeed"
+            >
+              <TextField source={USERFEED_TITLE_FIELD} />
+            </ReferenceField>
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
-          reference="CommunityFeed"
-          target="ds"
-          label="CommunityFeeds"
+          reference="UserFeed"
+          target="user_id"
+          label="userFeeds"
         >
           <Datagrid rowClick="show">
-            <ReferenceField
-              label="community"
-              source="community.id"
-              reference="Community"
-            >
-              <TextField source={COMMUNITY_TITLE_FIELD} />
-            </ReferenceField>
             <TextField label="content" source="content" />
             <DateField source="createdAt" label="Created At" />
             <ReferenceField label="creator" source="user.id" reference="User">
               <TextField source={USER_TITLE_FIELD} />
             </ReferenceField>
             <TextField label="ID" source="id" />
-            <DateField source="updatedAt" label="Updated At" />
-          </Datagrid>
-        </ReferenceManyField>
-        <ReferenceManyField
-          reference="FeedLike"
-          target="likedById"
-          label="FeedLikes"
-        >
-          <Datagrid rowClick="show">
-            <ReferenceField
-              label="communityFeed"
-              source="communityfeed.id"
-              reference="CommunityFeed"
-            >
-              <TextField source={COMMUNITYFEED_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="createdAt" label="Created At" />
-            <TextField label="ID" source="id" />
-            <ReferenceField label="likeBy" source="user.id" reference="User">
-              <TextField source={USER_TITLE_FIELD} />
-            </ReferenceField>
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>

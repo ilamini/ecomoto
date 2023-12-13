@@ -10,80 +10,54 @@ generator client {
 model User {
   commentLikes   CommentLike[]
   comments       Comment[]
-  communities    Community[]     @relation(fields: [communitiesIds], references: [id])
-  communitiesIds String[]        @db.ObjectId
-  communityFeeds CommunityFeed[]
-  createdAt      DateTime        @default(now())
+  communities    Community[]   @relation(fields: [communitiesIds], references: [id])
+  communitiesIds String[]      @db.ObjectId
+  createdAt      DateTime      @default(now())
   deletedAt      DateTime?
-  email          String          @unique
-  feedLikes      FeedLike[]
+  email          String        @unique
   firstName      String?
-  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   lastName       String?
   password       String
   roles          Json
-  updatedAt      DateTime        @updatedAt
-  username       String          @unique
+  updatedAt      DateTime      @updatedAt
+  userFeeds      UserFeed[]
+  username       String        @unique
   userType EnumUserUserType @default('Lessee')
 }
 
 model Community {
-  communityFeeds       CommunityFeed[]
   communityHeadeImgUrl String
-  createdAt            DateTime        @default(now())
+  createdAt            DateTime @default(now())
   description          String
-  id                   String          @id @default(auto()) @map("_id") @db.ObjectId
-  members              User[]          @relation(fields: [membersIds], references: [id])
-  membersIds           String[]        @db.ObjectId
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  members              User[]   @relation(fields: [membersIds], references: [id])
+  membersIds           String[] @db.ObjectId
   name                 String
-  updatedAt            DateTime        @updatedAt
-}
-
-model CommunityFeed {
-  comments    Comment[]
-  community   Community? @relation(fields: [communityId], references: [id])
-  communityId String?    @db.ObjectId
-  content     String
-  createdAt   DateTime   @default(now())
-  creator     User?      @relation(fields: [ds], references: [id])
-  ds          String?    @db.ObjectId
-  feedLikes   FeedLike[]
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  medias      Media[]
-  updatedAt   DateTime   @updatedAt
+  updatedAt            DateTime @updatedAt
 }
 
 model Comment {
-  commentLikes    CommentLike[]
-  comments        String?
-  communityFeed   CommunityFeed? @relation(fields: [communityFeedId], references: [id])
-  communityFeedId String?        @db.ObjectId
-  createdAt       DateTime       @default(now())
-  creator         User?          @relation(fields: [user_id], references: [id])
-  user_id         String?        @db.ObjectId
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  updatedAt       DateTime       @updatedAt
+  commentLikes CommentLike[]
+  comments     String?
+  createdAt    DateTime      @default(now())
+  creator      User?         @relation(fields: [user_id], references: [id])
+  user_id      String?       @db.ObjectId
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt    DateTime      @updatedAt
+  userFeed     UserFeed?     @relation(fields: [userFeedId], references: [id])
+  userFeedId   String?       @db.ObjectId
 }
 
 model Media {
-  communittFeed   CommunityFeed? @relation(fields: [communittFeedId], references: [id])
-  communittFeedId String?        @db.ObjectId
-  createdAt       DateTime       @default(now())
-  createdBy       String?
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  imageUrl        String?
-  updatedAt       DateTime       @updatedAt
-  videoUrl        String?
-}
-
-model FeedLike {
-  communityFeed   CommunityFeed? @relation(fields: [communityFeedId], references: [id])
-  communityFeedId String?        @db.ObjectId
-  createdAt       DateTime       @default(now())
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  likedBy         User           @relation(fields: [likedById], references: [id])
-  likedById       String         @db.ObjectId
-  updatedAt       DateTime       @updatedAt
+  createdAt  DateTime  @default(now())
+  createdBy  String?
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl   String?
+  updatedAt  DateTime  @updatedAt
+  userFeed   UserFeed? @relation(fields: [userFeedId], references: [id])
+  userFeedId String?   @db.ObjectId
+  videoUrl   String?
 }
 
 model CommentLike {
@@ -94,6 +68,17 @@ model CommentLike {
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?  @db.ObjectId
+}
+
+model UserFeed {
+  comments  Comment[]
+  content   String
+  createdAt DateTime  @default(now())
+  creator   User?     @relation(fields: [user_id], references: [id])
+  user_id   String?   @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  media     Media[]
+  updatedAt DateTime  @updatedAt
 }
 
 enum EnumUserUserType {

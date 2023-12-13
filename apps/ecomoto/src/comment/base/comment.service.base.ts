@@ -10,12 +10,13 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
-  Comment,
-  CommentLike,
-  CommunityFeed,
-  User,
+  Comment, // @ts-ignore
+  CommentLike, // @ts-ignore
+  User, // @ts-ignore
+  UserFeed,
 } from "@prisma/client";
 
 export class CommentServiceBase {
@@ -27,27 +28,27 @@ export class CommentServiceBase {
     return this.prisma.comment.count(args);
   }
 
-  async findMany<T extends Prisma.CommentFindManyArgs>(
+  async comments<T extends Prisma.CommentFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentFindManyArgs>
   ): Promise<Comment[]> {
     return this.prisma.comment.findMany(args);
   }
-  async findOne<T extends Prisma.CommentFindUniqueArgs>(
+  async comment<T extends Prisma.CommentFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentFindUniqueArgs>
   ): Promise<Comment | null> {
     return this.prisma.comment.findUnique(args);
   }
-  async create<T extends Prisma.CommentCreateArgs>(
+  async createComment<T extends Prisma.CommentCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentCreateArgs>
   ): Promise<Comment> {
     return this.prisma.comment.create<T>(args);
   }
-  async update<T extends Prisma.CommentUpdateArgs>(
+  async updateComment<T extends Prisma.CommentUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentUpdateArgs>
   ): Promise<Comment> {
     return this.prisma.comment.update<T>(args);
   }
-  async delete<T extends Prisma.CommentDeleteArgs>(
+  async deleteComment<T extends Prisma.CommentDeleteArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentDeleteArgs>
   ): Promise<Comment> {
     return this.prisma.comment.delete(args);
@@ -64,19 +65,19 @@ export class CommentServiceBase {
       .commentLikes(args);
   }
 
-  async getCommunityFeed(parentId: string): Promise<CommunityFeed | null> {
-    return this.prisma.comment
-      .findUnique({
-        where: { id: parentId },
-      })
-      .communityFeed();
-  }
-
   async getCreator(parentId: string): Promise<User | null> {
     return this.prisma.comment
       .findUnique({
         where: { id: parentId },
       })
       .creator();
+  }
+
+  async getUserFeed(parentId: string): Promise<UserFeed | null> {
+    return this.prisma.comment
+      .findUnique({
+        where: { id: parentId },
+      })
+      .userFeed();
   }
 }

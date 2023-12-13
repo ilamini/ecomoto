@@ -14,8 +14,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CommentLike } from "../../commentLike/base/CommentLike";
 import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
 import { Type } from "class-transformer";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { User } from "../../user/base/User";
+import { UserFeed } from "../../userFeed/base/UserFeed";
 
 @ObjectType()
 class Comment {
@@ -38,15 +38,6 @@ class Comment {
     nullable: true,
   })
   comments!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => CommunityFeed,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeed)
-  @IsOptional()
-  communityFeed?: CommunityFeed | null;
 
   @ApiProperty({
     required: true,
@@ -80,6 +71,15 @@ class Comment {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeed,
+  })
+  @ValidateNested()
+  @Type(() => UserFeed)
+  @IsOptional()
+  userFeed?: UserFeed | null;
 }
 
 export { Comment as Comment };

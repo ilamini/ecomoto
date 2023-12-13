@@ -11,26 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommunityFeedWhereUniqueInput } from "../../communityFeed/base/CommunityFeedWhereUniqueInput";
-import { ValidateNested, IsOptional } from "class-validator";
-import { Type } from "class-transformer";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
+import { UserFeedWhereUniqueInput } from "../../userFeed/base/UserFeedWhereUniqueInput";
 
 @InputType()
 class MediaWhereInput {
-  @ApiProperty({
-    required: false,
-    type: () => CommunityFeedWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedWhereUniqueInput)
-  @IsOptional()
-  @Field(() => CommunityFeedWhereUniqueInput, {
-    nullable: true,
-  })
-  communittFeed?: CommunityFeedWhereUniqueInput;
-
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -63,6 +51,18 @@ class MediaWhereInput {
     nullable: true,
   })
   imageUrl?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserFeedWhereUniqueInput, {
+    nullable: true,
+  })
+  userFeed?: UserFeedWhereUniqueInput;
 
   @ApiProperty({
     required: false,

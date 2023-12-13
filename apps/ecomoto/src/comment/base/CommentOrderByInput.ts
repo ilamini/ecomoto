@@ -39,17 +39,6 @@ class CommentOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  communityFeedId?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
   createdAt?: SortOrder;
 
   @ApiProperty({
@@ -84,6 +73,17 @@ class CommentOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  userFeedId?: SortOrder;
 }
 
 export { CommentOrderByInput as CommentOrderByInput };

@@ -10,7 +10,13 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, CommentLike, Comment, User } from "@prisma/client";
+
+import {
+  Prisma,
+  CommentLike, // @ts-ignore
+  Comment, // @ts-ignore
+  User,
+} from "@prisma/client";
 
 export class CommentLikeServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -21,27 +27,27 @@ export class CommentLikeServiceBase {
     return this.prisma.commentLike.count(args);
   }
 
-  async findMany<T extends Prisma.CommentLikeFindManyArgs>(
+  async commentLikes<T extends Prisma.CommentLikeFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentLikeFindManyArgs>
   ): Promise<CommentLike[]> {
     return this.prisma.commentLike.findMany(args);
   }
-  async findOne<T extends Prisma.CommentLikeFindUniqueArgs>(
+  async commentLike<T extends Prisma.CommentLikeFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentLikeFindUniqueArgs>
   ): Promise<CommentLike | null> {
     return this.prisma.commentLike.findUnique(args);
   }
-  async create<T extends Prisma.CommentLikeCreateArgs>(
+  async createCommentLike<T extends Prisma.CommentLikeCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentLikeCreateArgs>
   ): Promise<CommentLike> {
     return this.prisma.commentLike.create<T>(args);
   }
-  async update<T extends Prisma.CommentLikeUpdateArgs>(
+  async updateCommentLike<T extends Prisma.CommentLikeUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentLikeUpdateArgs>
   ): Promise<CommentLike> {
     return this.prisma.commentLike.update<T>(args);
   }
-  async delete<T extends Prisma.CommentLikeDeleteArgs>(
+  async deleteCommentLike<T extends Prisma.CommentLikeDeleteArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommentLikeDeleteArgs>
   ): Promise<CommentLike> {
     return this.prisma.commentLike.delete(args);

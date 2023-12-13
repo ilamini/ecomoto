@@ -11,22 +11,12 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
-import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
+import { IsString, IsDate, ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { User } from "../../user/base/User";
 
 @ObjectType()
 class Community {
-  @ApiProperty({
-    required: false,
-    type: () => [CommunityFeed],
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeed)
-  @IsOptional()
-  communityFeeds?: Array<CommunityFeed>;
-
   @ApiProperty({
     required: true,
     type: String,

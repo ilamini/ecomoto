@@ -1,11 +1,10 @@
 import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { CommunityModule } from "./community/community.module";
-import { CommunityFeedModule } from "./communityFeed/communityFeed.module";
 import { CommentModule } from "./comment/comment.module";
 import { MediaModule } from "./media/media.module";
-import { FeedLikeModule } from "./feedLike/feedLike.module";
 import { CommentLikeModule } from "./commentLike/commentLike.module";
+import { UserFeedModule } from "./userFeed/userFeed.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -25,11 +24,10 @@ import { AuthModule } from "./auth/auth.module";
     AuthModule,
     UserModule,
     CommunityModule,
-    CommunityFeedModule,
     CommentModule,
     MediaModule,
-    FeedLikeModule,
     CommentLikeModule,
+    UserFeedModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

@@ -15,8 +15,7 @@ import {
 import { CommentLikeTitle } from "../commentLike/CommentLikeTitle";
 import { CommentTitle } from "../comment/CommentTitle";
 import { CommunityTitle } from "../community/CommunityTitle";
-import { CommunityFeedTitle } from "../communityFeed/CommunityFeedTitle";
-import { FeedLikeTitle } from "../feedLike/FeedLikeTitle";
+import { UserFeedTitle } from "../userFeed/UserFeedTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
 
 export const UserEdit = (props: EditProps): React.ReactElement => {
@@ -47,24 +46,8 @@ export const UserEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={CommunityTitle} />
         </ReferenceArrayInput>
-        <ReferenceArrayInput
-          source="communityFeeds"
-          reference="CommunityFeed"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={CommunityFeedTitle} />
-        </ReferenceArrayInput>
         <DateInput label="Deleted At" source="deletedAt" />
         <TextInput label="email" source="email" type="email" />
-        <ReferenceArrayInput
-          source="feedLikes"
-          reference="FeedLike"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={FeedLikeTitle} />
-        </ReferenceArrayInput>
         <TextInput label="First Name" source="firstName" />
         <TextInput label="Last Name" source="lastName" />
         <PasswordInput label="Password" source="password" />
@@ -74,6 +57,14 @@ export const UserEdit = (props: EditProps): React.ReactElement => {
           optionText="label"
           optionValue="value"
         />
+        <ReferenceArrayInput
+          source="userFeeds"
+          reference="UserFeed"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={UserFeedTitle} />
+        </ReferenceArrayInput>
         <TextInput label="Username" source="username" />
         <SelectInput
           source="userType"

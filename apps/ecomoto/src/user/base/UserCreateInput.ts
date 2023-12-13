@@ -22,11 +22,10 @@ import {
 import { Type } from "class-transformer";
 import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 import { CommunityCreateNestedManyWithoutUsersInput } from "./CommunityCreateNestedManyWithoutUsersInput";
-import { CommunityFeedCreateNestedManyWithoutUsersInput } from "./CommunityFeedCreateNestedManyWithoutUsersInput";
-import { FeedLikeCreateNestedManyWithoutUsersInput } from "./FeedLikeCreateNestedManyWithoutUsersInput";
-import { IsJSONValue } from "@app/custom-validators";
+import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { UserFeedCreateNestedManyWithoutUsersInput } from "./UserFeedCreateNestedManyWithoutUsersInput";
 import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
@@ -69,18 +68,6 @@ class UserCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => CommunityFeedCreateNestedManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedCreateNestedManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => CommunityFeedCreateNestedManyWithoutUsersInput, {
-    nullable: true,
-  })
-  communityFeeds?: CommunityFeedCreateNestedManyWithoutUsersInput;
-
-  @ApiProperty({
-    required: false,
   })
   @IsDate()
   @Type(() => Date)
@@ -97,18 +84,6 @@ class UserCreateInput {
   @IsString()
   @Field(() => String)
   email!: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => FeedLikeCreateNestedManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => FeedLikeCreateNestedManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => FeedLikeCreateNestedManyWithoutUsersInput, {
-    nullable: true,
-  })
-  feedLikes?: FeedLikeCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -146,6 +121,18 @@ class UserCreateInput {
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => UserFeedCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  userFeeds?: UserFeedCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: true,

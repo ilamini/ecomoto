@@ -3,25 +3,25 @@ import {
   Edit,
   SimpleForm,
   EditProps,
+  TextInput,
   ReferenceInput,
   SelectInput,
-  TextInput,
 } from "react-admin";
-import { CommunityFeedTitle } from "../communityFeed/CommunityFeedTitle";
+import { UserFeedTitle } from "../userFeed/UserFeedTitle";
 
 export const MediaEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
-        <ReferenceInput
-          source="communittFeed.id"
-          reference="CommunityFeed"
-          label="communityFeed"
-        >
-          <SelectInput optionText={CommunityFeedTitle} />
-        </ReferenceInput>
         <TextInput label="createdBy" source="createdBy" />
         <TextInput label="imageUrl" source="imageUrl" />
+        <ReferenceInput
+          source="userFeed.id"
+          reference="UserFeed"
+          label="UserFeed"
+        >
+          <SelectInput optionText={UserFeedTitle} />
+        </ReferenceInput>
         <TextInput label="videoUrl" source="videoUrl" />
       </SimpleForm>
     </Edit>

@@ -3,12 +3,12 @@ import {
   List,
   Datagrid,
   ListProps,
-  ReferenceField,
-  TextField,
   DateField,
+  TextField,
+  ReferenceField,
 } from "react-admin";
 import Pagination from "../Components/Pagination";
-import { COMMUNITYFEED_TITLE_FIELD } from "../communityFeed/CommunityFeedTitle";
+import { USERFEED_TITLE_FIELD } from "../userFeed/UserFeedTitle";
 
 export const MediaList = (props: ListProps): React.ReactElement => {
   return (
@@ -20,18 +20,18 @@ export const MediaList = (props: ListProps): React.ReactElement => {
       pagination={<Pagination />}
     >
       <Datagrid rowClick="show">
-        <ReferenceField
-          label="communityFeed"
-          source="communityfeed.id"
-          reference="CommunityFeed"
-        >
-          <TextField source={COMMUNITYFEED_TITLE_FIELD} />
-        </ReferenceField>
         <DateField source="createdAt" label="Created At" />
         <TextField label="createdBy" source="createdBy" />
         <TextField label="ID" source="id" />
         <TextField label="imageUrl" source="imageUrl" />
         <DateField source="updatedAt" label="Updated At" />
+        <ReferenceField
+          label="UserFeed"
+          source="userfeed.id"
+          reference="UserFeed"
+        >
+          <TextField source={USERFEED_TITLE_FIELD} />
+        </ReferenceField>
         <TextField label="videoUrl" source="videoUrl" />
       </Datagrid>
     </List>

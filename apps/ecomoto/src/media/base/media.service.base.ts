@@ -10,7 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Media, CommunityFeed } from "@prisma/client";
+
+import {
+  Prisma,
+  Media, // @ts-ignore
+  UserFeed,
+} from "@prisma/client";
 
 export class MediaServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -21,37 +26,37 @@ export class MediaServiceBase {
     return this.prisma.media.count(args);
   }
 
-  async findMany<T extends Prisma.MediaFindManyArgs>(
+  async mediaItems<T extends Prisma.MediaFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.MediaFindManyArgs>
   ): Promise<Media[]> {
     return this.prisma.media.findMany(args);
   }
-  async findOne<T extends Prisma.MediaFindUniqueArgs>(
+  async media<T extends Prisma.MediaFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.MediaFindUniqueArgs>
   ): Promise<Media | null> {
     return this.prisma.media.findUnique(args);
   }
-  async create<T extends Prisma.MediaCreateArgs>(
+  async createMedia<T extends Prisma.MediaCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.MediaCreateArgs>
   ): Promise<Media> {
     return this.prisma.media.create<T>(args);
   }
-  async update<T extends Prisma.MediaUpdateArgs>(
+  async updateMedia<T extends Prisma.MediaUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.MediaUpdateArgs>
   ): Promise<Media> {
     return this.prisma.media.update<T>(args);
   }
-  async delete<T extends Prisma.MediaDeleteArgs>(
+  async deleteMedia<T extends Prisma.MediaDeleteArgs>(
     args: Prisma.SelectSubset<T, Prisma.MediaDeleteArgs>
   ): Promise<Media> {
     return this.prisma.media.delete(args);
   }
 
-  async getCommunittFeed(parentId: string): Promise<CommunityFeed | null> {
+  async getUserFeed(parentId: string): Promise<UserFeed | null> {
     return this.prisma.media
       .findUnique({
         where: { id: parentId },
       })
-      .communittFeed();
+      .userFeed();
   }
 }

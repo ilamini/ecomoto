@@ -12,8 +12,8 @@ import {
 } from "react-admin";
 
 import { CommentLikeTitle } from "../commentLike/CommentLikeTitle";
-import { CommunityFeedTitle } from "../communityFeed/CommunityFeedTitle";
 import { UserTitle } from "../user/UserTitle";
+import { UserFeedTitle } from "../userFeed/UserFeedTitle";
 
 export const CommentEdit = (props: EditProps): React.ReactElement => {
   return (
@@ -28,15 +28,15 @@ export const CommentEdit = (props: EditProps): React.ReactElement => {
           <SelectArrayInput optionText={CommentLikeTitle} />
         </ReferenceArrayInput>
         <TextInput label="comments" multiline source="comments" />
-        <ReferenceInput
-          source="communityFeed.id"
-          reference="CommunityFeed"
-          label="CommunityFeed"
-        >
-          <SelectInput optionText={CommunityFeedTitle} />
-        </ReferenceInput>
         <ReferenceInput source="creator.id" reference="User" label="creator">
           <SelectInput optionText={UserTitle} />
+        </ReferenceInput>
+        <ReferenceInput
+          source="userFeed.id"
+          reference="UserFeed"
+          label="UserFeed"
+        >
+          <SelectInput optionText={UserFeedTitle} />
         </ReferenceInput>
       </SimpleForm>
     </Edit>

@@ -19,17 +19,17 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateCommentArgs } from "./CreateCommentArgs";
-import { UpdateCommentArgs } from "./UpdateCommentArgs";
-import { DeleteCommentArgs } from "./DeleteCommentArgs";
+import { Comment } from "./Comment";
 import { CommentCountArgs } from "./CommentCountArgs";
 import { CommentFindManyArgs } from "./CommentFindManyArgs";
 import { CommentFindUniqueArgs } from "./CommentFindUniqueArgs";
-import { Comment } from "./Comment";
+import { CreateCommentArgs } from "./CreateCommentArgs";
+import { UpdateCommentArgs } from "./UpdateCommentArgs";
+import { DeleteCommentArgs } from "./DeleteCommentArgs";
 import { CommentLikeFindManyArgs } from "../../commentLike/base/CommentLikeFindManyArgs";
 import { CommentLike } from "../../commentLike/base/CommentLike";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
 import { User } from "../../user/base/User";
+import { UserFeed } from "../../userFeed/base/UserFeed";
 import { CommentService } from "../comment.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Comment)
@@ -64,7 +64,7 @@ export class CommentResolverBase {
   async comments(
     @graphql.Args() args: CommentFindManyArgs
   ): Promise<Comment[]> {
-    return this.service.findMany(args);
+    return this.service.comments(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
@@ -77,7 +77,7 @@ export class CommentResolverBase {
   async comment(
     @graphql.Args() args: CommentFindUniqueArgs
   ): Promise<Comment | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.comment(args);
     if (result === null) {
       return null;
     }
@@ -94,20 +94,20 @@ export class CommentResolverBase {
   async createComment(
     @graphql.Args() args: CreateCommentArgs
   ): Promise<Comment> {
-    return await this.service.create({
+    return await this.service.createComment({
       ...args,
       data: {
         ...args.data,
 
-        communityFeed: args.data.communityFeed
-          ? {
-              connect: args.data.communityFeed,
-            }
-          : undefined,
-
         creator: args.data.creator
           ? {
               connect: args.data.creator,
+            }
+          : undefined,
+
+        userFeed: args.data.userFeed
+          ? {
+              connect: args.data.userFeed,
             }
           : undefined,
       },
@@ -125,20 +125,20 @@ export class CommentResolverBase {
     @graphql.Args() args: UpdateCommentArgs
   ): Promise<Comment | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateComment({
         ...args,
         data: {
           ...args.data,
 
-          communityFeed: args.data.communityFeed
-            ? {
-                connect: args.data.communityFeed,
-              }
-            : undefined,
-
           creator: args.data.creator
             ? {
                 connect: args.data.creator,
+              }
+            : undefined,
+
+          userFeed: args.data.userFeed
+            ? {
+                connect: args.data.userFeed,
               }
             : undefined,
         },
@@ -163,7 +163,7 @@ export class CommentResolverBase {
     @graphql.Args() args: DeleteCommentArgs
   ): Promise<Comment | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteComment(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
         throw new GraphQLError(
@@ -181,7 +181,7 @@ export class CommentResolverBase {
     action: "read",
     possession: "any",
   })
-  async resolveFieldCommentLikes(
+  async findCommentLikes(
     @graphql.Parent() parent: Comment,
     @graphql.Args() args: CommentLikeFindManyArgs
   ): Promise<CommentLike[]> {
@@ -195,27 +195,6 @@ export class CommentResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => CommunityFeed, {
-    nullable: true,
-    name: "communityFeed",
-  })
-  @nestAccessControl.UseRoles({
-    resource: "CommunityFeed",
-    action: "read",
-    possession: "any",
-  })
-  async resolveFieldCommunityFeed(
-    @graphql.Parent() parent: Comment
-  ): Promise<CommunityFeed | null> {
-    const result = await this.service.getCommunityFeed(parent.id);
-
-    if (!result) {
-      return null;
-    }
-    return result;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => User, {
     nullable: true,
     name: "creator",
@@ -225,10 +204,29 @@ export class CommentResolverBase {
     action: "read",
     possession: "any",
   })
-  async resolveFieldCreator(
-    @graphql.Parent() parent: Comment
-  ): Promise<User | null> {
+  async getCreator(@graphql.Parent() parent: Comment): Promise<User | null> {
     const result = await this.service.getCreator(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => UserFeed, {
+    nullable: true,
+    name: "userFeed",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "UserFeed",
+    action: "read",
+    possession: "any",
+  })
+  async getUserFeed(
+    @graphql.Parent() parent: Comment
+  ): Promise<UserFeed | null> {
+    const result = await this.service.getUserFeed(parent.id);
 
     if (!result) {
       return null;
