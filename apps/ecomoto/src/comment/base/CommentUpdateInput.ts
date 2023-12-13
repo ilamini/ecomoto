@@ -14,8 +14,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CommentLikeUpdateManyWithoutCommentsInput } from "./CommentLikeUpdateManyWithoutCommentsInput";
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { CommunityFeedWhereUniqueInput } from "../../communityFeed/base/CommunityFeedWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { UserFeedWhereUniqueInput } from "../../userFeed/base/UserFeedWhereUniqueInput";
 
 @InputType()
 class CommentUpdateInput {
@@ -44,18 +44,6 @@ class CommentUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => CommunityFeedWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedWhereUniqueInput)
-  @IsOptional()
-  @Field(() => CommunityFeedWhereUniqueInput, {
-    nullable: true,
-  })
-  communityFeed?: CommunityFeedWhereUniqueInput | null;
-
-  @ApiProperty({
-    required: false,
     type: () => UserWhereUniqueInput,
   })
   @ValidateNested()
@@ -65,6 +53,18 @@ class CommentUpdateInput {
     nullable: true,
   })
   creator?: UserWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserFeedWhereUniqueInput, {
+    nullable: true,
+  })
+  userFeed?: UserFeedWhereUniqueInput | null;
 }
 
 export { CommentUpdateInput as CommentUpdateInput };

@@ -19,14 +19,14 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateMediaArgs } from "./CreateMediaArgs";
-import { UpdateMediaArgs } from "./UpdateMediaArgs";
-import { DeleteMediaArgs } from "./DeleteMediaArgs";
+import { Media } from "./Media";
 import { MediaCountArgs } from "./MediaCountArgs";
 import { MediaFindManyArgs } from "./MediaFindManyArgs";
 import { MediaFindUniqueArgs } from "./MediaFindUniqueArgs";
-import { Media } from "./Media";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
+import { CreateMediaArgs } from "./CreateMediaArgs";
+import { UpdateMediaArgs } from "./UpdateMediaArgs";
+import { DeleteMediaArgs } from "./DeleteMediaArgs";
+import { UserFeed } from "../../userFeed/base/UserFeed";
 import { MediaService } from "../media.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Media)
@@ -59,7 +59,7 @@ export class MediaResolverBase {
     possession: "any",
   })
   async mediaItems(@graphql.Args() args: MediaFindManyArgs): Promise<Media[]> {
-    return this.service.findMany(args);
+    return this.service.mediaItems(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
@@ -72,7 +72,7 @@ export class MediaResolverBase {
   async media(
     @graphql.Args() args: MediaFindUniqueArgs
   ): Promise<Media | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.media(args);
     if (result === null) {
       return null;
     }
@@ -87,14 +87,14 @@ export class MediaResolverBase {
     possession: "any",
   })
   async createMedia(@graphql.Args() args: CreateMediaArgs): Promise<Media> {
-    return await this.service.create({
+    return await this.service.createMedia({
       ...args,
       data: {
         ...args.data,
 
-        communittFeed: args.data.communittFeed
+        userFeed: args.data.userFeed
           ? {
-              connect: args.data.communittFeed,
+              connect: args.data.userFeed,
             }
           : undefined,
       },
@@ -112,14 +112,14 @@ export class MediaResolverBase {
     @graphql.Args() args: UpdateMediaArgs
   ): Promise<Media | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateMedia({
         ...args,
         data: {
           ...args.data,
 
-          communittFeed: args.data.communittFeed
+          userFeed: args.data.userFeed
             ? {
-                connect: args.data.communittFeed,
+                connect: args.data.userFeed,
               }
             : undefined,
         },
@@ -144,7 +144,7 @@ export class MediaResolverBase {
     @graphql.Args() args: DeleteMediaArgs
   ): Promise<Media | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteMedia(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
         throw new GraphQLError(
@@ -156,19 +156,17 @@ export class MediaResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => CommunityFeed, {
+  @graphql.ResolveField(() => UserFeed, {
     nullable: true,
-    name: "communittFeed",
+    name: "userFeed",
   })
   @nestAccessControl.UseRoles({
-    resource: "CommunityFeed",
+    resource: "UserFeed",
     action: "read",
     possession: "any",
   })
-  async resolveFieldCommunittFeed(
-    @graphql.Parent() parent: Media
-  ): Promise<CommunityFeed | null> {
-    const result = await this.service.getCommunittFeed(parent.id);
+  async getUserFeed(@graphql.Parent() parent: Media): Promise<UserFeed | null> {
+    const result = await this.service.getUserFeed(parent.id);
 
     if (!result) {
       return null;

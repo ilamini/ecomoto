@@ -10,7 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Community, CommunityFeed, User } from "@prisma/client";
+
+import {
+  Prisma,
+  Community, // @ts-ignore
+  User,
+} from "@prisma/client";
 
 export class CommunityServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -21,41 +26,30 @@ export class CommunityServiceBase {
     return this.prisma.community.count(args);
   }
 
-  async findMany<T extends Prisma.CommunityFindManyArgs>(
+  async communities<T extends Prisma.CommunityFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommunityFindManyArgs>
   ): Promise<Community[]> {
     return this.prisma.community.findMany(args);
   }
-  async findOne<T extends Prisma.CommunityFindUniqueArgs>(
+  async community<T extends Prisma.CommunityFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommunityFindUniqueArgs>
   ): Promise<Community | null> {
     return this.prisma.community.findUnique(args);
   }
-  async create<T extends Prisma.CommunityCreateArgs>(
+  async createCommunity<T extends Prisma.CommunityCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommunityCreateArgs>
   ): Promise<Community> {
     return this.prisma.community.create<T>(args);
   }
-  async update<T extends Prisma.CommunityUpdateArgs>(
+  async updateCommunity<T extends Prisma.CommunityUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommunityUpdateArgs>
   ): Promise<Community> {
     return this.prisma.community.update<T>(args);
   }
-  async delete<T extends Prisma.CommunityDeleteArgs>(
+  async deleteCommunity<T extends Prisma.CommunityDeleteArgs>(
     args: Prisma.SelectSubset<T, Prisma.CommunityDeleteArgs>
   ): Promise<Community> {
     return this.prisma.community.delete(args);
-  }
-
-  async findCommunityFeeds(
-    parentId: string,
-    args: Prisma.CommunityFeedFindManyArgs
-  ): Promise<CommunityFeed[]> {
-    return this.prisma.community
-      .findUniqueOrThrow({
-        where: { id: parentId },
-      })
-      .communityFeeds(args);
   }
 
   async findMembers(

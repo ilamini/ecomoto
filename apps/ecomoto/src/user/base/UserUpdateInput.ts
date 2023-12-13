@@ -22,11 +22,10 @@ import {
 import { Type } from "class-transformer";
 import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
 import { CommunityUpdateManyWithoutUsersInput } from "./CommunityUpdateManyWithoutUsersInput";
-import { CommunityFeedUpdateManyWithoutUsersInput } from "./CommunityFeedUpdateManyWithoutUsersInput";
-import { FeedLikeUpdateManyWithoutUsersInput } from "./FeedLikeUpdateManyWithoutUsersInput";
-import { IsJSONValue } from "@app/custom-validators";
+import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { UserFeedUpdateManyWithoutUsersInput } from "./UserFeedUpdateManyWithoutUsersInput";
 import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
@@ -69,18 +68,6 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => CommunityFeedUpdateManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedUpdateManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => CommunityFeedUpdateManyWithoutUsersInput, {
-    nullable: true,
-  })
-  communityFeeds?: CommunityFeedUpdateManyWithoutUsersInput;
-
-  @ApiProperty({
-    required: false,
   })
   @IsDate()
   @Type(() => Date)
@@ -100,18 +87,6 @@ class UserUpdateInput {
     nullable: true,
   })
   email?: string;
-
-  @ApiProperty({
-    required: false,
-    type: () => FeedLikeUpdateManyWithoutUsersInput,
-  })
-  @ValidateNested()
-  @Type(() => FeedLikeUpdateManyWithoutUsersInput)
-  @IsOptional()
-  @Field(() => FeedLikeUpdateManyWithoutUsersInput, {
-    nullable: true,
-  })
-  feedLikes?: FeedLikeUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -155,6 +130,18 @@ class UserUpdateInput {
     nullable: true,
   })
   roles?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => UserFeedUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  userFeeds?: UserFeedUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

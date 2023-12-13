@@ -1,11 +1,11 @@
-import { CommunityFeedWhereUniqueInput } from "../communityFeed/CommunityFeedWhereUniqueInput";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { UserFeedWhereUniqueInput } from "../userFeed/UserFeedWhereUniqueInput";
 
 export type MediaWhereInput = {
-  communittFeed?: CommunityFeedWhereUniqueInput;
   createdBy?: StringNullableFilter;
   id?: StringFilter;
   imageUrl?: StringNullableFilter;
+  userFeed?: UserFeedWhereUniqueInput;
   videoUrl?: StringNullableFilter;
 };

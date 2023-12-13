@@ -28,17 +28,6 @@ class MediaOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  communittFeedId?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
   createdAt?: SortOrder;
 
   @ApiProperty({
@@ -84,6 +73,17 @@ class MediaOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  userFeedId?: SortOrder;
 
   @ApiProperty({
     required: false,

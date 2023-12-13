@@ -19,15 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateCommunityArgs } from "./CreateCommunityArgs";
-import { UpdateCommunityArgs } from "./UpdateCommunityArgs";
-import { DeleteCommunityArgs } from "./DeleteCommunityArgs";
+import { Community } from "./Community";
 import { CommunityCountArgs } from "./CommunityCountArgs";
 import { CommunityFindManyArgs } from "./CommunityFindManyArgs";
 import { CommunityFindUniqueArgs } from "./CommunityFindUniqueArgs";
-import { Community } from "./Community";
-import { CommunityFeedFindManyArgs } from "../../communityFeed/base/CommunityFeedFindManyArgs";
-import { CommunityFeed } from "../../communityFeed/base/CommunityFeed";
+import { CreateCommunityArgs } from "./CreateCommunityArgs";
+import { UpdateCommunityArgs } from "./UpdateCommunityArgs";
+import { DeleteCommunityArgs } from "./DeleteCommunityArgs";
 import { UserFindManyArgs } from "../../user/base/UserFindManyArgs";
 import { User } from "../../user/base/User";
 import { CommunityService } from "../community.service";
@@ -64,7 +62,7 @@ export class CommunityResolverBase {
   async communities(
     @graphql.Args() args: CommunityFindManyArgs
   ): Promise<Community[]> {
-    return this.service.findMany(args);
+    return this.service.communities(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
@@ -77,7 +75,7 @@ export class CommunityResolverBase {
   async community(
     @graphql.Args() args: CommunityFindUniqueArgs
   ): Promise<Community | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.community(args);
     if (result === null) {
       return null;
     }
@@ -94,7 +92,7 @@ export class CommunityResolverBase {
   async createCommunity(
     @graphql.Args() args: CreateCommunityArgs
   ): Promise<Community> {
-    return await this.service.create({
+    return await this.service.createCommunity({
       ...args,
       data: args.data,
     });
@@ -111,7 +109,7 @@ export class CommunityResolverBase {
     @graphql.Args() args: UpdateCommunityArgs
   ): Promise<Community | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateCommunity({
         ...args,
         data: args.data,
       });
@@ -135,7 +133,7 @@ export class CommunityResolverBase {
     @graphql.Args() args: DeleteCommunityArgs
   ): Promise<Community | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteCommunity(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
         throw new GraphQLError(
@@ -147,33 +145,13 @@ export class CommunityResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [CommunityFeed], { name: "communityFeeds" })
-  @nestAccessControl.UseRoles({
-    resource: "CommunityFeed",
-    action: "read",
-    possession: "any",
-  })
-  async resolveFieldCommunityFeeds(
-    @graphql.Parent() parent: Community,
-    @graphql.Args() args: CommunityFeedFindManyArgs
-  ): Promise<CommunityFeed[]> {
-    const results = await this.service.findCommunityFeeds(parent.id, args);
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => [User], { name: "members" })
   @nestAccessControl.UseRoles({
     resource: "User",
     action: "read",
     possession: "any",
   })
-  async resolveFieldMembers(
+  async findMembers(
     @graphql.Parent() parent: Community,
     @graphql.Args() args: UserFindManyArgs
   ): Promise<User[]> {

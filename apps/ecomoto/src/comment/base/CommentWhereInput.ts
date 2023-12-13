@@ -15,9 +15,9 @@ import { CommentLikeListRelationFilter } from "../../commentLike/base/CommentLik
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { CommunityFeedWhereUniqueInput } from "../../communityFeed/base/CommunityFeedWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { UserFeedWhereUniqueInput } from "../../userFeed/base/UserFeedWhereUniqueInput";
 
 @InputType()
 class CommentWhereInput {
@@ -46,18 +46,6 @@ class CommentWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => CommunityFeedWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedWhereUniqueInput)
-  @IsOptional()
-  @Field(() => CommunityFeedWhereUniqueInput, {
-    nullable: true,
-  })
-  communityFeed?: CommunityFeedWhereUniqueInput;
-
-  @ApiProperty({
-    required: false,
     type: () => UserWhereUniqueInput,
   })
   @ValidateNested()
@@ -78,6 +66,18 @@ class CommentWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserFeedWhereUniqueInput, {
+    nullable: true,
+  })
+  userFeed?: UserFeedWhereUniqueInput;
 }
 
 export { CommentWhereInput as CommentWhereInput };

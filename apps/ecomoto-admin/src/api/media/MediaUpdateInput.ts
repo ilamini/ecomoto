@@ -1,8 +1,8 @@
-import { CommunityFeedWhereUniqueInput } from "../communityFeed/CommunityFeedWhereUniqueInput";
+import { UserFeedWhereUniqueInput } from "../userFeed/UserFeedWhereUniqueInput";
 
 export type MediaUpdateInput = {
-  communittFeed?: CommunityFeedWhereUniqueInput | null;
   createdBy?: string | null;
   imageUrl?: string | null;
+  userFeed?: UserFeedWhereUniqueInput | null;
   videoUrl?: string | null;
 };

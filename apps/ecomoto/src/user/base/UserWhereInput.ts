@@ -16,11 +16,10 @@ import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
 import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
 import { CommunityListRelationFilter } from "../../community/base/CommunityListRelationFilter";
-import { CommunityFeedListRelationFilter } from "../../communityFeed/base/CommunityFeedListRelationFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
-import { FeedLikeListRelationFilter } from "../../feedLike/base/FeedLikeListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { UserFeedListRelationFilter } from "../../userFeed/base/UserFeedListRelationFilter";
 import { EnumUserUserType } from "./EnumUserUserType";
 
 @InputType()
@@ -63,18 +62,6 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => CommunityFeedListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => CommunityFeedListRelationFilter)
-  @IsOptional()
-  @Field(() => CommunityFeedListRelationFilter, {
-    nullable: true,
-  })
-  communityFeeds?: CommunityFeedListRelationFilter;
-
-  @ApiProperty({
-    required: false,
     type: DateTimeNullableFilter,
   })
   @Type(() => DateTimeNullableFilter)
@@ -94,18 +81,6 @@ class UserWhereInput {
     nullable: true,
   })
   email?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => FeedLikeListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => FeedLikeListRelationFilter)
-  @IsOptional()
-  @Field(() => FeedLikeListRelationFilter, {
-    nullable: true,
-  })
-  feedLikes?: FeedLikeListRelationFilter;
 
   @ApiProperty({
     required: false,
@@ -139,6 +114,18 @@ class UserWhereInput {
     nullable: true,
   })
   lastName?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserFeedListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => UserFeedListRelationFilter)
+  @IsOptional()
+  @Field(() => UserFeedListRelationFilter, {
+    nullable: true,
+  })
+  userFeeds?: UserFeedListRelationFilter;
 
   @ApiProperty({
     required: false,

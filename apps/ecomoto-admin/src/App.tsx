@@ -13,10 +13,6 @@ import { CommunityList } from "./community/CommunityList";
 import { CommunityCreate } from "./community/CommunityCreate";
 import { CommunityEdit } from "./community/CommunityEdit";
 import { CommunityShow } from "./community/CommunityShow";
-import { CommunityFeedList } from "./communityFeed/CommunityFeedList";
-import { CommunityFeedCreate } from "./communityFeed/CommunityFeedCreate";
-import { CommunityFeedEdit } from "./communityFeed/CommunityFeedEdit";
-import { CommunityFeedShow } from "./communityFeed/CommunityFeedShow";
 import { CommentList } from "./comment/CommentList";
 import { CommentCreate } from "./comment/CommentCreate";
 import { CommentEdit } from "./comment/CommentEdit";
@@ -25,14 +21,14 @@ import { MediaList } from "./media/MediaList";
 import { MediaCreate } from "./media/MediaCreate";
 import { MediaEdit } from "./media/MediaEdit";
 import { MediaShow } from "./media/MediaShow";
-import { FeedLikeList } from "./feedLike/FeedLikeList";
-import { FeedLikeCreate } from "./feedLike/FeedLikeCreate";
-import { FeedLikeEdit } from "./feedLike/FeedLikeEdit";
-import { FeedLikeShow } from "./feedLike/FeedLikeShow";
 import { CommentLikeList } from "./commentLike/CommentLikeList";
 import { CommentLikeCreate } from "./commentLike/CommentLikeCreate";
 import { CommentLikeEdit } from "./commentLike/CommentLikeEdit";
 import { CommentLikeShow } from "./commentLike/CommentLikeShow";
+import { UserFeedList } from "./userFeed/UserFeedList";
+import { UserFeedCreate } from "./userFeed/UserFeedCreate";
+import { UserFeedEdit } from "./userFeed/UserFeedEdit";
+import { UserFeedShow } from "./userFeed/UserFeedShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -74,13 +70,6 @@ const App = (): React.ReactElement => {
           show={CommunityShow}
         />
         <Resource
-          name="CommunityFeed"
-          list={CommunityFeedList}
-          edit={CommunityFeedEdit}
-          create={CommunityFeedCreate}
-          show={CommunityFeedShow}
-        />
-        <Resource
           name="Comment"
           list={CommentList}
           edit={CommentEdit}
@@ -95,18 +84,18 @@ const App = (): React.ReactElement => {
           show={MediaShow}
         />
         <Resource
-          name="FeedLike"
-          list={FeedLikeList}
-          edit={FeedLikeEdit}
-          create={FeedLikeCreate}
-          show={FeedLikeShow}
-        />
-        <Resource
           name="CommentLike"
           list={CommentLikeList}
           edit={CommentLikeEdit}
           create={CommentLikeCreate}
           show={CommentLikeShow}
+        />
+        <Resource
+          name="UserFeed"
+          list={UserFeedList}
+          edit={UserFeedEdit}
+          create={UserFeedCreate}
+          show={UserFeedShow}
         />
       </Admin>
     </div>
